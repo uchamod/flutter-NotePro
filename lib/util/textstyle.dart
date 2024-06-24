@@ -6,27 +6,30 @@ class TextStyleClass {
   static const appHeadingStyle = TextStyle(
       fontSize: 28,
       color: AppColors.kcTextWhiteColor,
-      fontWeight: FontWeight.w600);
+      fontWeight: FontWeight.w700);
   //title
-   static const appTittleStyle = TextStyle(
-      fontSize: 22,
+  static const appTittleStyle = TextStyle(
+      fontSize: 20,
       color: AppColors.kcTextWhiteColor,
-      fontWeight: FontWeight.w600);
+      fontWeight: FontWeight.w500);
   //subtitle
-   static const appSubTittleStyle = TextStyle(
-      fontSize: 18,
+  static const appSubTittleStyle = TextStyle(
+      fontSize: 16,
       color: AppColors.kcTextWhiteColor,
-      fontWeight: FontWeight.w500);
+      fontWeight: FontWeight.w700);
   //discrption large
-   static const appDiscriptionLargeStyle = TextStyle(
-      fontSize: 14,
+  static const appDiscriptionLargeStyle = TextStyle(
+      fontSize: 13,
       color: AppColors.kcTextWhiteColor,
       fontWeight: FontWeight.w500);
-  //discription body
-   static final appStyle = TextStyle(
-      fontSize: 28,
+  //discription small
+  static final appDiscriptionSmallStyle = TextStyle(
+      fontSize: 12,
       color: AppColors.kcTextWhiteColorShadow,
       fontWeight: FontWeight.w600);
-
-
+  //cardtitle
+  static const appCardTitleStyle = TextStyle(
+      fontSize: 17,
+      color: AppColors.kcTextWhiteColor,
+      fontWeight: FontWeight.w600);
 }

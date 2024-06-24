@@ -1,19 +1,19 @@
 //defining all the theme properties in the app
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; 
 import 'package:note_sphere/util/colors.dart';
 
 class TheameClass {
   static ThemeData theameData = ThemeData(
     //primary color
-    primaryColor: ThemeData.dark().primaryColor,
+     primaryColor: ThemeData.dark().primaryColor,
     //scafold color
     scaffoldBackgroundColor: AppColors.kcBackgroundBlackColor,
     //main color schema
-    colorScheme: const ColorScheme.dark(),
+      colorScheme: const ColorScheme.dark(),
     //app bar thema
-    appBarTheme: AppBarTheme(
+    appBarTheme: const AppBarTheme(
       backgroundColor: AppColors.kcBackgroundBlackColor,
-      elevation: 1,
+      elevation: 0,
       iconTheme: IconThemeData(color: AppColors.kcTextWhiteColor),
       foregroundColor: AppColors.kcTextWhiteColor,
     ),
@@ -24,7 +24,7 @@ class TheameClass {
       iconSize: 25,
     ),
     //card theme
-    cardTheme:  CardTheme(
+    cardTheme: const CardTheme(
       color: AppColors.kcCardBlackColor,
       elevation: 1,
       shadowColor: AppColors.kcTextWhiteColor,
