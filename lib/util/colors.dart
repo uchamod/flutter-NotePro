@@ -9,7 +9,7 @@ class AppColors {
   
   static const Color kcTickRedColor = Color(0xffA10B0B);
   static const Color kcTickGreenColor = Color(0xff049424);
-  static const Color kcButtonPurpleColor = Color(0xffDC1CE0);
+  static const Color kcButtonPurpleColor = Color(0xff3E3D3D);
 
   //gradient colors
   static const int gradientStart = 0xff219EE4;

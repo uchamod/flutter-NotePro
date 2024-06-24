@@ -9,7 +9,7 @@ class TextStyleClass {
       fontWeight: FontWeight.w700);
   //title
   static const appTittleStyle = TextStyle(
-      fontSize: 20,
+      fontSize: 22,
       color: AppColors.kcTextWhiteColor,
       fontWeight: FontWeight.w500);
   //subtitle

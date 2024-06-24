@@ -3,27 +3,21 @@ import 'package:note_sphere/util/colors.dart';
 import 'package:note_sphere/util/constants.dart';
 import 'package:note_sphere/util/textstyle.dart';
 
-class CategoryCard extends StatefulWidget {
-  final IconData icon;
-  final String title;
-  final double numOfTasks;
-  final String subText;
-  const CategoryCard(
-      {super.key,
-      required this.icon,
-      required this.title,
-      required this.numOfTasks, required this.subText});
+class NoteCard extends StatefulWidget {
+  final String category;
+  final int numOfNotes;
+  const NoteCard({super.key, required this.category, required this.numOfNotes});
 
   @override
-  State<CategoryCard> createState() => _CategoryCardState();
+  State<NoteCard> createState() => _NoteCardState();
 }
 
-class _CategoryCardState extends State<CategoryCard> {
+class _NoteCardState extends State<NoteCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width * 0.45,
-      height: MediaQuery.of(context).size.height * 0.15,
+      height: MediaQuery.of(context).size.height * 0.14,
       padding: const EdgeInsets.symmetric(
           horizontal: ConstantClass.kcDefultpadH,
           vertical: ConstantClass.kcDefultContainerPadV),
@@ -32,22 +26,17 @@ class _CategoryCardState extends State<CategoryCard> {
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+       
         children: [
-          Icon(
-            widget.icon,
-            size: 35,
-            color: AppColors.kcTextWhiteColor,
-          ),
           Text(
-            widget.title,
+            widget.category,
             style: TextStyleClass.appTittleStyle,
           ),
           Text(
-            "${widget.numOfTasks.toStringAsFixed(0)} ${widget.subText}",
+            "${widget.numOfNotes.toString()} notes",
             style: TextStyleClass.appDiscriptionSmallStyle,
-          ),
+          )
         ],
       ),
     );

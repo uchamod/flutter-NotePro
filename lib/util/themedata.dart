@@ -5,11 +5,11 @@ import 'package:note_sphere/util/colors.dart';
 class TheameClass {
   static ThemeData theameData = ThemeData(
     //primary color
-     primaryColor: ThemeData.dark().primaryColor,
+    primaryColor: ThemeData.dark().primaryColor,
     //scafold color
     scaffoldBackgroundColor: AppColors.kcBackgroundBlackColor,
     //main color schema
-      colorScheme: const ColorScheme.dark(),
+    colorScheme: const ColorScheme.dark(),
     //app bar thema
     appBarTheme: const AppBarTheme(
       backgroundColor: AppColors.kcBackgroundBlackColor,
