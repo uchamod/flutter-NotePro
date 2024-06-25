@@ -20,8 +20,9 @@ class TheameClass {
     //floating action button theme
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
       backgroundColor: AppColors.kcButtonPurpleColor,
-      elevation: 1,
-      iconSize: 25,
+      
+      elevation: 0,
+      iconSize: 35,
     ),
     //card theme
     cardTheme: const CardTheme(

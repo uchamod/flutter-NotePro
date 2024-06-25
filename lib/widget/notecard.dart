@@ -16,7 +16,7 @@ class _NoteCardState extends State<NoteCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.45,
+      width: MediaQuery.of(context).size.width * 0.44,
       height: MediaQuery.of(context).size.height * 0.14,
       padding: const EdgeInsets.symmetric(
           horizontal: ConstantClass.kcDefultpadH,
@@ -24,10 +24,16 @@ class _NoteCardState extends State<NoteCard> {
       decoration: BoxDecoration(
         color: AppColors.kcCardBlackColor,
         borderRadius: BorderRadius.circular(10),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black12,
+            offset: Offset(0, 5),
+            blurRadius: 2,
+          ),
+        ],
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-       
         children: [
           Text(
             widget.category,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:note_sphere/routes/routenames.dart';
 import 'package:note_sphere/util/textstyle.dart';
-import 'package:note_sphere/widget/taskcard.dart';
+
 import 'package:note_sphere/widget/workcard.dart';
 
 import '../util/constants.dart';
@@ -19,6 +19,7 @@ class _ToDoPageState extends State<ToDoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
             leading: GestureDetector(
           onTap: () {
             GoRouter.of(context).goNamed(RouteNames.homepage);

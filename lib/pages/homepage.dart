@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+
 import 'package:note_sphere/routes/routenames.dart';
+import 'package:note_sphere/routes/routings.dart';
 import 'package:note_sphere/util/colors.dart';
 import 'package:note_sphere/util/constants.dart';
 import 'package:note_sphere/util/textstyle.dart';
@@ -45,7 +46,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    GoRouter.of(context).goNamed(RouteNames.notepage);
+                    RouteClass.router.pushNamed(RouteNames.notepage);
                   },
                   child: const CategoryCard(
                     icon: Icons.bookmark_add_outlined,
@@ -56,7 +57,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 GestureDetector(
                   onTap: () {
-                         GoRouter.of(context).goNamed(RouteNames.todopage);
+                      RouteClass.router.pushNamed(RouteNames.todopage);
                   },
                   child: const CategoryCard(
                     icon: Icons.today_outlined,
@@ -65,7 +66,6 @@ class _HomePageState extends State<HomePage> {
                     subText: "works",
                   ),
                 )
-             
               ],
             ),
             const SizedBox(

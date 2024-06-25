@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 //defining all the color properties in the app
 class AppColors {
   //primary color
-  static const Color kcBackgroundBlackColor = Color(0xff131313);
-  static const Color kcCardBlackColor = Color(0xff2F2E2E);
+  static const Color kcBackgroundBlackColor = Color.fromARGB(255, 28, 27, 27);
+  static const Color kcCardBlackColor = Color.fromARGB(255, 53, 52, 52);
   static const Color kcTextWhiteColor = Color(0xffF4F4F4);
   static final Color kcTextWhiteColorShadow = const Color(0xffEDEDED).withOpacity(0.6);
   
