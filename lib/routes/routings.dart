@@ -10,8 +10,8 @@ class RouteClass {
   static final router = GoRouter(
     navigatorKey: GlobalKey<NavigatorState>(),
     initialLocation: "/",
-    
     routes: [
+      //for homepage
       GoRoute(
         path: "/",
         name: RouteNames.homepage,
@@ -19,6 +19,7 @@ class RouteClass {
           return const HomePage();
         },
       ),
+      //for notepage
       GoRoute(
         path: "/notepage",
         name: RouteNames.notepage,
@@ -26,6 +27,7 @@ class RouteClass {
           return const MainNotePage();
         },
       ),
+      //for todo page
       GoRoute(
         path: "/todopage",
         name: RouteNames.todopage,
@@ -33,13 +35,15 @@ class RouteClass {
           return const ToDoPage();
         },
       ),
+      //for single route page
       GoRoute(
         path: "/singlenotepage",
         name: RouteNames.singlenotepage,
         builder: (context, state) {
-          //return const SingleNotePage(category: category);
+          String category = state.extra as String;
+          return SingleNotePage(category: category);
         },
-      )
+      ),
     ],
   );
 }

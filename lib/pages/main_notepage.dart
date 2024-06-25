@@ -97,10 +97,19 @@ class _MainNotePageState extends State<MainNotePage> {
                       itemCount: notesByCategory.length,
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
-                        return NoteCard(
-                            category: notesByCategory.keys.elementAt(index),
-                            numOfNotes:
-                                notesByCategory.values.elementAt(index).length);
+                        //route to singlenotepage
+                        return GestureDetector(
+                          onTap: () {
+                            GoRouter.of(context).goNamed(
+                                RouteNames.singlenotepage,
+                                extra: notesByCategory.keys.elementAt(index));
+                          },
+                          child: NoteCard(
+                              category: notesByCategory.keys.elementAt(index),
+                              numOfNotes: notesByCategory.values
+                                  .elementAt(index)
+                                  .length),
+                        );
                       },
                     )
             ],
