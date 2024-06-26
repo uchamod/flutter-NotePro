@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:note_sphere/models/notemodel.dart';
 import 'package:note_sphere/routes/routenames.dart';
+import 'package:note_sphere/routes/routings.dart';
 import 'package:note_sphere/services/noteservices.dart';
 import 'package:note_sphere/util/colors.dart';
 import 'package:note_sphere/util/constants.dart';
 import 'package:note_sphere/util/textstyle.dart';
+import 'package:note_sphere/widget/noteadding_bottomsheet.dart';
 import 'package:note_sphere/widget/notecard.dart';
 
 //show allNote class
@@ -50,6 +52,29 @@ class _MainNotePageState extends State<MainNotePage> {
       allnotes = notes;
       notesByCategory = noteMap;
     });
+  }
+
+//method for show the bottom sheet
+  void openModelBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return BottomSheetByCategory(
+          //route to add new note page
+          addNewNote: () {
+            Navigator.pop(context);
+            GoRouter.of(context)
+                .goNamed(RouteNames.addnewnotepage, extra: true);
+          },
+          //route to add new note by category page
+          addNewNoteForNewCategory: () {
+            Navigator.pop(context);
+            GoRouter.of(context)
+                .goNamed(RouteNames.addnewnotepage, extra: false);
+          },
+        );
+      },
+    );
   }
 
   @override
@@ -120,7 +145,8 @@ class _MainNotePageState extends State<MainNotePage> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(100),
           ),
-          onPressed: () {},
+          //show bottom sheet
+          onPressed: openModelBottomSheet,
           child: const Center(
             child: Icon(
               Icons.add,

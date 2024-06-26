@@ -52,43 +52,52 @@ class _SingleNotePageState extends State<SingleNotePage> {
             size: 30,
           ),
         ),
-        title:  Text(
+        title: Text(
           widget.category,
           style: TextStyleClass.appHeadingStyle,
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-            horizontal: ConstantClass.kcDefultpadH,
-            vertical: ConstantClass.kcDefultpadV),
-        child: Column(
-          children: [
-            //show all the notes acording to category
-            notesByCategory.isEmpty
-                ? const Center(
-                    child: Text(
-                    "No notes avalible\nadd some notes here",
-                    style: TextStyleClass.appCardTitleStyle,
-                  ))
-                : GridView.builder(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            mainAxisSpacing: 15,
-                            crossAxisSpacing: 15,
-                            childAspectRatio: 16 / 14),
-                    scrollDirection: Axis.vertical,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: notesByCategory.length,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      //route to singlenotepage
-                      return SingleNoteCard(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+              horizontal: ConstantClass.kcDefultpadH,
+              vertical: ConstantClass.kcDefultpadV),
+          child: Column(
+            children: [
+              //show all the notes acording to category
+              notesByCategory.isEmpty
+                  ? const Center(
+                      child: Text(
+                      "No notes avalible\nadd some notes here",
+                      style: TextStyleClass.appCardTitleStyle,
+                    ))
+                  : GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              mainAxisSpacing: 15,
+                              crossAxisSpacing: 15,
+                              childAspectRatio: 16 / 14),
+                      scrollDirection: Axis.vertical,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: notesByCategory.length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        //route to singlenotepage
+                        return SingleNoteCard(
                           title: notesByCategory[index].title,
-                          discription: notesByCategory[index].description);
-                    },
-                  )
-          ],
+                          discription: notesByCategory[index].description,
+                          editNote: () async {
+                            noteServices.updateNote(notesByCategory[index]);
+                          },
+                          deleteNote: () async {
+                            noteServices.deleteNote(notesByCategory[index]);
+                          },
+                        );
+                      },
+                    )
+            ],
+          ),
         ),
       ),
     );

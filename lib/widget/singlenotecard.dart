@@ -6,8 +6,15 @@ import 'package:note_sphere/util/textstyle.dart';
 class SingleNoteCard extends StatefulWidget {
   final String title;
   final String discription;
+  final Future Function() editNote;
+  final Future Function() deleteNote;
+
   const SingleNoteCard(
-      {super.key, required this.title, required this.discription});
+      {super.key,
+      required this.title,
+      required this.discription,
+      required this.editNote,
+      required this.deleteNote});
 
   @override
   State<SingleNoteCard> createState() => _SingleNoteCardState();
@@ -40,26 +47,42 @@ class _SingleNoteCardState extends State<SingleNoteCard> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Icon(
-                Icons.edit_outlined,
-                color: AppColors.kcTextWhiteColorShadow,
-                size: 28,
+              //note edit button
+              GestureDetector(
+                onTap: widget.editNote,
+                child: Icon(
+                  Icons.edit_outlined,
+                  color: AppColors.kcTextWhiteColorShadow,
+                  size: 28,
+                ),
               ),
-              const SizedBox(width: 25,),
-              Icon(
-                Icons.delete_outline,
-                color: AppColors.kcTextWhiteColorShadow,
-                size: 28,
+              const SizedBox(
+                width: 25,
+              ),
+              //delete note button
+              GestureDetector(
+                onTap:   widget.deleteNote,
+                child: Icon(
+                  Icons.delete_outline,
+                  color: AppColors.kcTextWhiteColorShadow,
+                  size: 28,
+                ),
               )
             ],
           ),
+          //note title
           Text(
             widget.title,
             style: TextStyleClass.appCardTitleStyle,
+            maxLines: 1,
+            overflow:TextOverflow.ellipsis,
           ),
+          //note discription
           Text(
             widget.discription,
             style: TextStyleClass.appDiscriptionLargeStyle,
+              maxLines: 6,
+            overflow:TextOverflow.ellipsis,
           )
         ],
       ),
