@@ -1,6 +1,9 @@
 //noteservices
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:note_sphere/models/notemodel.dart';
+import 'package:note_sphere/util/colors.dart';
+import 'package:note_sphere/util/textstyle.dart';
 import 'package:uuid/uuid.dart';
 
 class NoteServices {
@@ -80,29 +83,99 @@ class NoteServices {
   }
 
   //remove note from local storage
-  Future<void> deleteNote(NoteModel note) async {
+  Future<void> deleteNote(NoteModel note, BuildContext context) async {
     try {
       final dynamic allNotes = await _noteBox.get("notes");
       //get the index
       final int index = allNotes.indexWhere((ele) => ele.id == note.id);
       allNotes.removeAt(index);
       await _noteBox.put("notes", allNotes);
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            backgroundColor: AppColors.kcCardBlackColor,
+            content: Text(
+              "Note is deleted succsussfuly",
+              style: TextStyleClass.appSubTittleStyle,
+            )));
+      }
     } catch (err) {
       print(err.toString());
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            backgroundColor: AppColors.kcCardBlackColor,
+            content: Text(
+              "Something went wrong",
+              style: TextStyleClass.appSubTittleStyle,
+            )));
+      }
     }
   }
 
   //update current note
-  Future<void> updateNote(NoteModel note) async {
+  Future<void> updateNote(NoteModel note, BuildContext context) async {
     try {
       final dynamic allNotes = await _noteBox.get("notes");
       //get the index
       final int index = allNotes.indexWhere((ele) => ele.id == note.id);
       allNotes[index] = note;
       await _noteBox.put("notes", allNotes);
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            backgroundColor: AppColors.kcCardBlackColor,
+            content: Text(
+              "Note is updated succsussfuly",
+              style: TextStyleClass.appSubTittleStyle,
+            )));
+      }
     } catch (err) {
       print(err.toString());
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            backgroundColor: AppColors.kcCardBlackColor,
+            content: Text(
+              "Something went wrong",
+              style: TextStyleClass.appSubTittleStyle,
+            )));
+      }
     }
   }
+
   //add new note
+  //get all categories
+  Future<List<String>> getAllCategories() async {
+    List<String> allCategories = [];
+    final dynamic allnotes = await _noteBox.get("notes");
+    for (final note in allnotes) {
+      if (!allCategories.contains(note.category)) {
+        allCategories.add(note.category);
+      }
+    }
+    return allCategories;
+  }
+
+  //save a new note
+  Future<void> saveNewNote(NoteModel note, BuildContext context) async {
+    try {
+      final dynamic allNotes = await _noteBox.get("notes");
+      allNotes.add(note);
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            backgroundColor: AppColors.kcCardBlackColor,
+            content: Text(
+              "New Note is added",
+              style: TextStyleClass.appSubTittleStyle,
+            )));
+      }
+    } catch (err) {
+      print(err.toString());
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            backgroundColor: AppColors.kcCardBlackColor,
+            content: Text(
+              "Something went wrong",
+              style: TextStyleClass.appSubTittleStyle,
+            )));
+      }
+    }
+  }
 }

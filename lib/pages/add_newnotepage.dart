@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:note_sphere/models/notemodel.dart';
 import 'package:note_sphere/routes/routenames.dart';
+import 'package:note_sphere/services/noteservices.dart';
+import 'package:note_sphere/util/colors.dart';
 import 'package:note_sphere/util/constants.dart';
 import 'package:note_sphere/util/textstyle.dart';
 
@@ -13,8 +16,32 @@ class AddNewNote extends StatefulWidget {
 }
 
 class _AddNewNoteState extends State<AddNewNote> {
+  List<String> allCategories = [];
+  NoteServices noteServices = NoteServices();
+
+  //form key
+  final _formKey = GlobalKey<FormState>();
+  //field controllers
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _discriptionController = TextEditingController();
+  final TextEditingController _categoryController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    setState(() {
+      _loadCategories();
+    });
+    super.initState();
+  }
+
+  void _loadCategories() async {
+    allCategories = await noteServices.getAllCategories();
+  }
+
   @override
   Widget build(BuildContext context) {
+    String _selectedCategory = allCategories[0];
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -29,16 +56,204 @@ class _AddNewNoteState extends State<AddNewNote> {
             ),
           ),
           title: const Text(
-           "Create note",
+            "Create note",
             style: TextStyleClass.appTittleStyle,
           ),
         ),
-        body: const Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: ConstantClass.kcDefultpadH,
-              vertical: ConstantClass.kcDefultpadV),
-          child: Column(
-            children: [],
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: ConstantClass.kcDefultpadH,
+                vertical: ConstantClass.kcDefultpadV),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 25,
+                ),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      //drop down menu
+                      Container(
+                        // padding: const EdgeInsets.symmetric(
+                        //     horizontal: 15, vertical: 5),
+                        // decoration: BoxDecoration(
+                        //   color: AppColors.kcBackgroundBlackColor,
+                        //   borderRadius: BorderRadius.circular(15),
+                        //   border: Border.all(
+                        //       width: 2, color: AppColors.kcTextWhiteColor),
+                        // ),
+                        child: widget.isNormal
+                            ? DropdownButtonFormField(
+                                alignment: Alignment.centerLeft,
+                                value: _selectedCategory,
+                        
+                                decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 15, vertical: 20),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                    borderSide: BorderSide(
+                                        color: AppColors.kcTextWhiteColorShadow,
+                                        width: 1),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                    borderSide: BorderSide(
+                                        color: AppColors.kcTextWhiteColorShadow,
+                                        width: 1),
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                    borderSide: BorderSide(
+                                        color: AppColors.kcTextWhiteColorShadow,
+                                        width: 1),
+                                  ),
+                                ),
+                                hint: Text(
+                                  "Category",
+                                  style: TextStyleClass.appDiscriptionSmallStyle
+                                      .copyWith(fontSize: 16),
+                                ),
+                                style:
+                                    TextStyleClass.appDiscriptionSmallStyle,
+                                menuMaxHeight: double.infinity,
+                        
+                                isExpanded: true,
+                                icon: const Icon(
+                                  Icons.arrow_drop_down,
+                                  color: AppColors.kcTextWhiteColor,
+                                  size: 28,
+                                ),
+                                //add menu items
+                                items: allCategories.map((ele) =>
+                                   DropdownMenuItem(
+                                    value: ele,
+                                    child: Text(
+                                      ele,
+                                      style: TextStyleClass.appSubTittleStyle,
+                                    ),
+                                  )
+                                ).toList(),
+                                onChanged: (value) {
+                                  // setState(() {
+                                  //   _selectedCategory = value!;
+                                  // });
+                                },
+                                //or create new category
+                              )
+                            : TextFormField(
+                                style: TextStyleClass.appTittleStyle,
+                                cursorColor: AppColors.kcTextWhiteColor,
+                                controller: _categoryController,
+                                decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 15, vertical: 20),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                    borderSide: BorderSide(
+                                        color:
+                                            AppColors.kcTextWhiteColorShadow,
+                                        width: 1),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                    borderSide: BorderSide(
+                                        color:
+                                            AppColors.kcTextWhiteColorShadow,
+                                        width: 1),
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                    borderSide: BorderSide(
+                                        color:
+                                            AppColors.kcTextWhiteColorShadow,
+                                        width: 1),
+                                  ),
+                                  hintText: "New Category",
+                                  hintStyle: TextStyleClass
+                                      .appDiscriptionSmallStyle
+                                      .copyWith(fontSize: 16),
+                                ),
+                              ),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      //title text feild
+                      TextFormField(
+                        style: TextStyleClass.appTittleStyle,
+                        cursorColor: AppColors.kcTextWhiteColor,
+                        controller: _titleController,
+                        maxLines: 2,
+                        decoration: InputDecoration(
+                            hintText: "Note Title",
+                            hintStyle: TextStyleClass.appDiscriptionSmallStyle
+                                .copyWith(
+                              fontSize: 28,
+                            ),
+                            border: InputBorder.none),
+                      ),
+                      const SizedBox(
+                        height: 35,
+                      ),
+                      //discription
+                      TextFormField(
+                        controller: _discriptionController,
+                        maxLines: 15,
+                        cursorColor: AppColors.kcTextWhiteColor,
+                        style: TextStyleClass.appSubTittleStyle,
+                        decoration: InputDecoration(
+                            hintText: "Context",
+                            hintStyle: TextStyleClass.appDiscriptionSmallStyle
+                                .copyWith(fontSize: 17),
+                            border: InputBorder.none),
+                      ),
+                      Divider(
+                        color: AppColors.kcTextWhiteColorShadow,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      //note save button
+                      GestureDetector(
+                        onTap: () async {
+                          if (_formKey.currentState!.validate()) {
+                            NoteModel note = NoteModel(
+                                category: _categoryController.text,
+                                title: _titleController.text,
+                                description: _discriptionController.text,
+                                dateTime: DateTime.now());
+                            setState(() {
+                              noteServices.saveNewNote(note, context);
+                            });
+                          } else {
+                            const CircularProgressIndicator();
+                          }
+                        },
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          height: MediaQuery.of(context).size.height * 0.06,
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(40),
+                              color: AppColors.kcCardBlackColor),
+                          child: const Center(
+                            child: Text(
+                              "Save Note",
+                              style: TextStyleClass.appSubTittleStyle,
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ));
   }

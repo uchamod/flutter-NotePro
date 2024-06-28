@@ -88,10 +88,10 @@ class _SingleNotePageState extends State<SingleNotePage> {
                           title: notesByCategory[index].title,
                           discription: notesByCategory[index].description,
                           editNote: () async {
-                            noteServices.updateNote(notesByCategory[index]);
+                            noteServices.updateNote(notesByCategory[index],context);
                           },
                           deleteNote: () async {
-                            noteServices.deleteNote(notesByCategory[index]);
+                            noteServices.deleteNote(notesByCategory[index],context);
                           },
                         );
                       },
