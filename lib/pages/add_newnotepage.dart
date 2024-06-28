@@ -25,7 +25,7 @@ class _AddNewNoteState extends State<AddNewNote> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _discriptionController = TextEditingController();
   final TextEditingController _categoryController = TextEditingController();
-
+  String _selectedCategory = "";
   @override
   void initState() {
     // TODO: implement initState
@@ -40,8 +40,16 @@ class _AddNewNoteState extends State<AddNewNote> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    _categoryController.dispose();
+    _discriptionController.dispose();
+    _titleController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    String _selectedCategory = allCategories[0];
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -87,10 +95,15 @@ class _AddNewNoteState extends State<AddNewNote> {
                         //       width: 2, color: AppColors.kcTextWhiteColor),
                         // ),
                         child: widget.isNormal
-                            ? DropdownButtonFormField(
+                            ? DropdownButtonFormField<String>(
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "please select a category";
+                                  }
+                                },
                                 alignment: Alignment.centerLeft,
-                                value: _selectedCategory,
-                        
+                                // value: _selectedCategory,
+
                                 decoration: InputDecoration(
                                   contentPadding: const EdgeInsets.symmetric(
                                       horizontal: 15, vertical: 20),
@@ -118,10 +131,9 @@ class _AddNewNoteState extends State<AddNewNote> {
                                   style: TextStyleClass.appDiscriptionSmallStyle
                                       .copyWith(fontSize: 16),
                                 ),
-                                style:
-                                    TextStyleClass.appDiscriptionSmallStyle,
+                                style: TextStyleClass.appDiscriptionSmallStyle,
                                 menuMaxHeight: double.infinity,
-                        
+
                                 isExpanded: true,
                                 icon: const Icon(
                                   Icons.arrow_drop_down,
@@ -129,25 +141,32 @@ class _AddNewNoteState extends State<AddNewNote> {
                                   size: 28,
                                 ),
                                 //add menu items
-                                items: allCategories.map((ele) =>
-                                   DropdownMenuItem(
-                                    value: ele,
-                                    child: Text(
-                                      ele,
-                                      style: TextStyleClass.appSubTittleStyle,
-                                    ),
-                                  )
-                                ).toList(),
-                                onChanged: (value) {
-                                  // setState(() {
-                                  //   _selectedCategory = value!;
-                                  // });
+                                items: allCategories
+                                    .map((ele) => DropdownMenuItem(
+                                          value: ele,
+                                          child: Text(
+                                            ele,
+                                            style: TextStyleClass
+                                                .appSubTittleStyle,
+                                          ),
+                                        ))
+                                    .toList(),
+                                onChanged: (String? value) {
+                                  setState(() {
+                                    _selectedCategory = value!;
+                                  });
                                 },
                                 //or create new category
                               )
                             : TextFormField(
                                 style: TextStyleClass.appTittleStyle,
                                 cursorColor: AppColors.kcTextWhiteColor,
+                                textInputAction: TextInputAction.next,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Please select a category";
+                                  }
+                                },
                                 controller: _categoryController,
                                 decoration: InputDecoration(
                                   contentPadding: const EdgeInsets.symmetric(
@@ -155,22 +174,19 @@ class _AddNewNoteState extends State<AddNewNote> {
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(15),
                                     borderSide: BorderSide(
-                                        color:
-                                            AppColors.kcTextWhiteColorShadow,
+                                        color: AppColors.kcTextWhiteColorShadow,
                                         width: 1),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(15),
                                     borderSide: BorderSide(
-                                        color:
-                                            AppColors.kcTextWhiteColorShadow,
+                                        color: AppColors.kcTextWhiteColorShadow,
                                         width: 1),
                                   ),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(15),
                                     borderSide: BorderSide(
-                                        color:
-                                            AppColors.kcTextWhiteColorShadow,
+                                        color: AppColors.kcTextWhiteColorShadow,
                                         width: 1),
                                   ),
                                   hintText: "New Category",
@@ -188,7 +204,13 @@ class _AddNewNoteState extends State<AddNewNote> {
                         style: TextStyleClass.appTittleStyle,
                         cursorColor: AppColors.kcTextWhiteColor,
                         controller: _titleController,
+                        textInputAction: TextInputAction.next,
                         maxLines: 2,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Please Enter your title";
+                          }
+                        },
                         decoration: InputDecoration(
                             hintText: "Note Title",
                             hintStyle: TextStyleClass.appDiscriptionSmallStyle
@@ -204,8 +226,14 @@ class _AddNewNoteState extends State<AddNewNote> {
                       TextFormField(
                         controller: _discriptionController,
                         maxLines: 15,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Please Enter your context";
+                          }
+                        },
                         cursorColor: AppColors.kcTextWhiteColor,
                         style: TextStyleClass.appSubTittleStyle,
+                        textInputAction: TextInputAction.done,
                         decoration: InputDecoration(
                             hintText: "Context",
                             hintStyle: TextStyleClass.appDiscriptionSmallStyle
@@ -221,15 +249,17 @@ class _AddNewNoteState extends State<AddNewNote> {
                       //note save button
                       GestureDetector(
                         onTap: () async {
+                          //save a new note
                           if (_formKey.currentState!.validate()) {
-                            NoteModel note = NoteModel(
-                                category: _categoryController.text,
+                           
+                          NoteModel  note = NoteModel(
+                                category: widget.isNormal ? _selectedCategory : _categoryController.text,
                                 title: _titleController.text,
                                 description: _discriptionController.text,
                                 dateTime: DateTime.now());
-                            setState(() {
+                          
                               noteServices.saveNewNote(note, context);
-                            });
+                          
                           } else {
                             const CircularProgressIndicator();
                           }

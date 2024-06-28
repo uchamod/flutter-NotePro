@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:note_sphere/models/notemodel.dart';
 import 'package:note_sphere/routes/routenames.dart';
-import 'package:note_sphere/routes/routings.dart';
 import 'package:note_sphere/services/noteservices.dart';
 import 'package:note_sphere/util/colors.dart';
 import 'package:note_sphere/util/constants.dart';

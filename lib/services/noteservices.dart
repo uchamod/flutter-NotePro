@@ -92,6 +92,7 @@ class NoteServices {
       await _noteBox.put("notes", allNotes);
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            duration: Duration(seconds: 1),
             backgroundColor: AppColors.kcCardBlackColor,
             content: Text(
               "Note is deleted succsussfuly",
@@ -103,6 +104,7 @@ class NoteServices {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             backgroundColor: AppColors.kcCardBlackColor,
+            duration: Duration(seconds: 1),
             content: Text(
               "Something went wrong",
               style: TextStyleClass.appSubTittleStyle,
@@ -122,6 +124,7 @@ class NoteServices {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             backgroundColor: AppColors.kcCardBlackColor,
+            duration: Duration(seconds: 1),
             content: Text(
               "Note is updated succsussfuly",
               style: TextStyleClass.appSubTittleStyle,
@@ -132,6 +135,7 @@ class NoteServices {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             backgroundColor: AppColors.kcCardBlackColor,
+            duration: Duration(seconds: 1),
             content: Text(
               "Something went wrong",
               style: TextStyleClass.appSubTittleStyle,
@@ -158,9 +162,11 @@ class NoteServices {
     try {
       final dynamic allNotes = await _noteBox.get("notes");
       allNotes.add(note);
+      await _noteBox.put("notes", allNotes);
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             backgroundColor: AppColors.kcCardBlackColor,
+            duration: Duration(seconds: 1),
             content: Text(
               "New Note is added",
               style: TextStyleClass.appSubTittleStyle,
@@ -171,6 +177,7 @@ class NoteServices {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             backgroundColor: AppColors.kcCardBlackColor,
+            duration: Duration(seconds: 1),
             content: Text(
               "Something went wrong",
               style: TextStyleClass.appSubTittleStyle,
