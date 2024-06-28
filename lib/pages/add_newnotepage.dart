@@ -246,38 +246,72 @@ class _AddNewNoteState extends State<AddNewNote> {
                       const SizedBox(
                         height: 10,
                       ),
-                      //note save button
-                      GestureDetector(
-                        onTap: () async {
-                          //save a new note
-                          if (_formKey.currentState!.validate()) {
-                           
-                          NoteModel  note = NoteModel(
-                                category: widget.isNormal ? _selectedCategory : _categoryController.text,
-                                title: _titleController.text,
-                                description: _discriptionController.text,
-                                dateTime: DateTime.now());
-                          
-                              noteServices.saveNewNote(note, context);
-                          
-                          } else {
-                            const CircularProgressIndicator();
-                          }
-                        },
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.3,
-                          height: MediaQuery.of(context).size.height * 0.06,
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(40),
-                              color: AppColors.kcCardBlackColor),
-                          child: const Center(
-                            child: Text(
-                              "Save Note",
-                              style: TextStyleClass.appSubTittleStyle,
+                      //note save button and clear form button
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          //note save button
+                          GestureDetector(
+                            onTap: () async {
+                              //save a new note
+                              if (_formKey.currentState!.validate()) {
+                                NoteModel note = NoteModel(
+                                    category: widget.isNormal
+                                        ? _selectedCategory
+                                        : _categoryController.text,
+                                    title: _titleController.text,
+                                    description: _discriptionController.text,
+                                    dateTime: DateTime.now());
+
+                                noteServices.saveNewNote(note, context);
+                              } else {
+                                const CircularProgressIndicator();
+                              }
+                            },
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.3,
+                              height: MediaQuery.of(context).size.height * 0.06,
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(40),
+                                  color: AppColors.kcCardBlackColor),
+                              child: const Center(
+                                child: Text(
+                                  "Save Note",
+                                  style: TextStyleClass.appSubTittleStyle,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
+                          //clear the form
+                          GestureDetector(
+                            onTap: () {
+                              if (widget.isNormal) {
+                                
+                                _discriptionController.clear();
+                                _titleController.clear();
+                              } else {
+                                _categoryController.clear();
+                                _discriptionController.clear();
+                                _titleController.clear();
+                              }
+                            },
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.3,
+                              height: MediaQuery.of(context).size.height * 0.06,
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(40),
+                                  color: AppColors.kcCardBlackColor),
+                              child: const Center(
+                                child: Text(
+                                  "Clear",
+                                  style: TextStyleClass.appSubTittleStyle,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       )
                     ],
                   ),
