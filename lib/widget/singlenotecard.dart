@@ -24,8 +24,6 @@ class _SingleNoteCardState extends State<SingleNoteCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.44,
-      height: MediaQuery.of(context).size.height * 0.14,
       padding: const EdgeInsets.symmetric(
           horizontal: ConstantClass.kcDefultpadH,
           vertical: ConstantClass.kcDefultContainerPadV),
@@ -41,7 +39,7 @@ class _SingleNoteCardState extends State<SingleNoteCard> {
         ],
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
@@ -61,7 +59,7 @@ class _SingleNoteCardState extends State<SingleNoteCard> {
               ),
               //delete note button
               GestureDetector(
-                onTap:   widget.deleteNote,
+                onTap: widget.deleteNote,
                 child: Icon(
                   Icons.delete_outline,
                   color: AppColors.kcTextWhiteColorShadow,
@@ -70,19 +68,25 @@ class _SingleNoteCardState extends State<SingleNoteCard> {
               )
             ],
           ),
+          const SizedBox(
+            height: 15,
+          ),
           //note title
           Text(
             widget.title,
             style: TextStyleClass.appCardTitleStyle,
             maxLines: 1,
-            overflow:TextOverflow.ellipsis,
+            overflow: TextOverflow.ellipsis,
+          ),
+          const SizedBox(
+            height: 15,
           ),
           //note discription
           Text(
             widget.discription,
             style: TextStyleClass.appDiscriptionLargeStyle,
-              maxLines: 6,
-            overflow:TextOverflow.ellipsis,
+            maxLines: 6,
+            overflow: TextOverflow.ellipsis,
           )
         ],
       ),

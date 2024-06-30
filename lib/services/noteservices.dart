@@ -144,7 +144,7 @@ class NoteServices {
     }
   }
 
-  //add new note
+  
   //get all categories
   Future<List<String>> getAllCategories() async {
     List<String> allCategories = [];
@@ -185,4 +185,6 @@ class NoteServices {
       }
     }
   }
+  //update a note
+  
 }

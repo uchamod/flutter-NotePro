@@ -37,6 +37,11 @@ class _SingleNotePageState extends State<SingleNotePage> {
     });
   }
 
+  // NoteModel getCurrentNote(NoteModel note) {
+  //   GoRouter.of(context).goNamed(RouteNames.updatenotepage, extra: note);
+  //   return note;
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,10 +79,11 @@ class _SingleNotePageState extends State<SingleNotePage> {
                   : GridView.builder(
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              mainAxisSpacing: 15,
-                              crossAxisSpacing: 15,
-                              childAspectRatio: 16 / 14),
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 15,
+                        crossAxisSpacing: 15,
+                        childAspectRatio: 7 / 9,
+                      ),
                       scrollDirection: Axis.vertical,
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: notesByCategory.length,
@@ -87,11 +93,17 @@ class _SingleNotePageState extends State<SingleNotePage> {
                         return SingleNoteCard(
                           title: notesByCategory[index].title,
                           discription: notesByCategory[index].description,
-                          editNote: () async {
-                            noteServices.updateNote(notesByCategory[index],context);
+                          editNote: () async{
+                            GoRouter.of(context).goNamed(
+                                RouteNames.updatenotepage,
+                                extra: notesByCategory[index]);
+                            // getCurrentNote(
+                            //   notesByCategory[index],
+                            // );
                           },
                           deleteNote: () async {
-                            noteServices.deleteNote(notesByCategory[index],context);
+                            noteServices.deleteNote(
+                                notesByCategory[index], context);
                           },
                         );
                       },

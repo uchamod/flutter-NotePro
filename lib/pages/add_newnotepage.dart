@@ -86,23 +86,17 @@ class _AddNewNoteState extends State<AddNewNote> {
                     children: [
                       //drop down menu
                       Container(
-                        // padding: const EdgeInsets.symmetric(
-                        //     horizontal: 15, vertical: 5),
-                        // decoration: BoxDecoration(
-                        //   color: AppColors.kcBackgroundBlackColor,
-                        //   borderRadius: BorderRadius.circular(15),
-                        //   border: Border.all(
-                        //       width: 2, color: AppColors.kcTextWhiteColor),
-                        // ),
+                       
                         child: widget.isNormal
                             ? DropdownButtonFormField<String>(
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return "please select a category";
+                                  } else {
+                                    return null;
                                   }
                                 },
                                 alignment: Alignment.centerLeft,
-                                // value: _selectedCategory,
 
                                 decoration: InputDecoration(
                                   contentPadding: const EdgeInsets.symmetric(
@@ -165,6 +159,8 @@ class _AddNewNoteState extends State<AddNewNote> {
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return "Please select a category";
+                                  } else {
+                                    return null;
                                   }
                                 },
                                 controller: _categoryController,
@@ -209,6 +205,8 @@ class _AddNewNoteState extends State<AddNewNote> {
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "Please Enter your title";
+                          } else {
+                            return null;
                           }
                         },
                         decoration: InputDecoration(
@@ -229,6 +227,8 @@ class _AddNewNoteState extends State<AddNewNote> {
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "Please Enter your context";
+                          } else {
+                            return null;
                           }
                         },
                         cursorColor: AppColors.kcTextWhiteColor,
@@ -250,69 +250,69 @@ class _AddNewNoteState extends State<AddNewNote> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          //note save button
-                          GestureDetector(
-                            onTap: () async {
-                              //save a new note
-                              if (_formKey.currentState!.validate()) {
-                                NoteModel note = NoteModel(
-                                    category: widget.isNormal
-                                        ? _selectedCategory
-                                        : _categoryController.text,
-                                    title: _titleController.text,
-                                    description: _discriptionController.text,
-                                    dateTime: DateTime.now());
+                               GestureDetector(
+                        onTap: () async {
+                          //save a new note
+                          if (_formKey.currentState!.validate()) {
+                            NoteModel note = NoteModel(
+                                category: widget.isNormal
+                                    ? _selectedCategory
+                                    : _categoryController.text,
+                                title: _titleController.text,
+                                description: _discriptionController.text,
+                                dateTime: DateTime.now());
 
-                                noteServices.saveNewNote(note, context);
-                              } else {
-                                const CircularProgressIndicator();
-                              }
-                            },
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * 0.3,
-                              height: MediaQuery.of(context).size.height * 0.06,
-                              padding: const EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(40),
-                                  color: AppColors.kcCardBlackColor),
-                              child: const Center(
-                                child: Text(
-                                  "Save Note",
-                                  style: TextStyleClass.appSubTittleStyle,
-                                ),
-                              ),
+                            noteServices.saveNewNote(note, context);
+                          } else {
+                            const CircularProgressIndicator();
+                          }
+                        },
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          height: MediaQuery.of(context).size.height * 0.06,
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(40),
+                              color: AppColors.kcCardBlackColor),
+                          child: const Center(
+                            child: Text(
+                              "Save Note",
+                              style: TextStyleClass.appSubTittleStyle,
                             ),
                           ),
-                          //clear the form
-                          GestureDetector(
-                            onTap: () {
-                              if (widget.isNormal) {
-                                
-                                _discriptionController.clear();
-                                _titleController.clear();
-                              } else {
-                                _categoryController.clear();
-                                _discriptionController.clear();
-                                _titleController.clear();
-                              }
-                            },
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * 0.3,
-                              height: MediaQuery.of(context).size.height * 0.06,
-                              padding: const EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(40),
-                                  color: AppColors.kcCardBlackColor),
-                              child: const Center(
-                                child: Text(
-                                  "Clear",
-                                  style: TextStyleClass.appSubTittleStyle,
-                                ),
-                              ),
+                        ),
+                      ),
+                      //clear the form
+                      GestureDetector(
+                        onTap: () {
+                          if (widget.isNormal) {
+
+                            _discriptionController.clear();
+                            _titleController.clear();
+                          } else {
+                            _categoryController.clear();
+                            _discriptionController.clear();
+                            _titleController.clear();
+                          }
+                        },
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          height: MediaQuery.of(context).size.height * 0.06,
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(40),
+                              color: AppColors.kcCardBlackColor),
+                          child: const Center(
+                            child: Text(
+                              "Clear",
+                              style: TextStyleClass.appSubTittleStyle,
                             ),
                           ),
-                        ],
+                        ),
                       )
+                        ],
+                      ),
+                   
                     ],
                   ),
                 ),

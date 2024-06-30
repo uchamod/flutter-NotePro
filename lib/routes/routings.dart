@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:note_sphere/models/notemodel.dart';
 import 'package:note_sphere/pages/add_newnotepage.dart';
 import 'package:note_sphere/pages/homepage.dart';
 import 'package:note_sphere/pages/main_notepage.dart';
 import 'package:note_sphere/pages/single_notepage.dart';
 import 'package:note_sphere/pages/todopage.dart';
+import 'package:note_sphere/pages/update_notepage.dart';
 import 'package:note_sphere/routes/routenames.dart';
 
 class RouteClass {
@@ -51,7 +53,7 @@ class RouteClass {
         name: RouteNames.addnewnotepage,
         builder: (context, state) {
           bool isNormal = state.extra as bool;
-          return  AddNewNote(
+          return AddNewNote(
             isNormal: isNormal,
           );
         },
@@ -61,7 +63,9 @@ class RouteClass {
         path: "/update",
         name: RouteNames.updatenotepage,
         builder: (context, state) {
-          return const ToDoPage();
+          NoteModel note = state.extra as NoteModel;
+          return UpdatenotePage(
+              category: note.category,title: note.title, discription: note.description);
         },
       ),
     ],
