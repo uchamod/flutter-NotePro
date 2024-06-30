@@ -37,11 +37,7 @@ class _SingleNotePageState extends State<SingleNotePage> {
     });
   }
 
-  // NoteModel getCurrentNote(NoteModel note) {
-  //   GoRouter.of(context).goNamed(RouteNames.updatenotepage, extra: note);
-  //   return note;
-  // }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,7 +78,7 @@ class _SingleNotePageState extends State<SingleNotePage> {
                         crossAxisCount: 2,
                         mainAxisSpacing: 15,
                         crossAxisSpacing: 15,
-                        childAspectRatio: 7 / 9,
+                        childAspectRatio: 7 / 10.43,
                       ),
                       scrollDirection: Axis.vertical,
                       physics: const NeverScrollableScrollPhysics(),
@@ -93,17 +89,23 @@ class _SingleNotePageState extends State<SingleNotePage> {
                         return SingleNoteCard(
                           title: notesByCategory[index].title,
                           discription: notesByCategory[index].description,
-                          editNote: () async{
+                          editNote: () async {
                             GoRouter.of(context).goNamed(
                                 RouteNames.updatenotepage,
                                 extra: notesByCategory[index]);
-                            // getCurrentNote(
-                            //   notesByCategory[index],
-                            // );
                           },
                           deleteNote: () async {
-                            noteServices.deleteNote(
+                            await noteServices.deleteNote(
                                 notesByCategory[index], context);
+                            setState(() {
+                              notesByCategory.removeAt(index);
+                            });
+                          },
+
+                          toFullNoteShowPage: ()async {
+                             GoRouter.of(context).goNamed(
+                                RouteNames.fullnotepage,
+                                extra: notesByCategory[index]);
                           },
                         );
                       },

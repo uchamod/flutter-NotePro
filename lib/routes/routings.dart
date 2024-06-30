@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:note_sphere/models/notemodel.dart';
 import 'package:note_sphere/pages/add_newnotepage.dart';
+import 'package:note_sphere/pages/errorpage.dart';
 import 'package:note_sphere/pages/homepage.dart';
 import 'package:note_sphere/pages/main_notepage.dart';
+import 'package:note_sphere/pages/show_fullnotepage.dart';
 import 'package:note_sphere/pages/single_notepage.dart';
 import 'package:note_sphere/pages/todopage.dart';
 import 'package:note_sphere/pages/update_notepage.dart';
@@ -13,6 +15,9 @@ class RouteClass {
   static final router = GoRouter(
     navigatorKey: GlobalKey<NavigatorState>(),
     initialLocation: "/",
+    errorPageBuilder: (context, state) {
+      return const MaterialPage<dynamic>(child: ErroPage());
+    },
     routes: [
       //for homepage
       GoRoute(
@@ -65,7 +70,19 @@ class RouteClass {
         builder: (context, state) {
           NoteModel note = state.extra as NoteModel;
           return UpdatenotePage(
-              category: note.category,title: note.title, discription: note.description);
+            note: note,
+          );
+        },
+      ),
+      //for shoowfullnote page
+      GoRoute(
+        path: "/shownote",
+        name: RouteNames.fullnotepage,
+        builder: (context, state) {
+          NoteModel note = state.extra as NoteModel;
+          return ShowFullNote(
+            note: note,
+          );
         },
       ),
     ],

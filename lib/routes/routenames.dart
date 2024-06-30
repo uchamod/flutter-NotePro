@@ -5,5 +5,6 @@ class RouteNames {
   static const String singlenotepage = "singlenotepage";
   static const String updatenotepage = "updatenotepage";
   static const String addnewnotepage = "adnewnotepage";
+  static const String fullnotepage = "fullnotepage";
   
 }

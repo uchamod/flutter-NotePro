@@ -9,11 +9,11 @@ import 'package:note_sphere/util/textstyle.dart';
 
 //edit note page
 class UpdatenotePage extends StatefulWidget {
-  final String title;
-  final String discription;
-  final String category;
-  const UpdatenotePage(
-      {super.key, required this.title, required this.discription, required this.category});
+  final NoteModel note;
+  const UpdatenotePage({
+    super.key,
+    required this.note,
+  });
 
   @override
   State<UpdatenotePage> createState() => _UpdatenotePageState();
@@ -35,8 +35,9 @@ class _UpdatenotePageState extends State<UpdatenotePage> {
     // TODO: implement initState
     setState(() {
       _loadCategories();
-      _selectedCategory = _titleController.text = widget.title;
-      _discriptionController.text = widget.discription;
+      _selectedCategory = widget.note.category;
+      _titleController.text = widget.note.title;
+      _discriptionController.text = widget.note.description;
     });
     super.initState();
   }
@@ -170,11 +171,6 @@ class _UpdatenotePageState extends State<UpdatenotePage> {
                         }
                       },
                       decoration: const InputDecoration(
-                        // hintText: "Note Title",
-                        // hintStyle:
-                        //     TextStyleClass.appDiscriptionSmallStyle.copyWith(
-                        //   fontSize: 28,
-                        // ),
                         border: InputBorder.none,
                       ),
                     ),
@@ -196,9 +192,6 @@ class _UpdatenotePageState extends State<UpdatenotePage> {
                       style: TextStyleClass.appSubTittleStyle,
                       textInputAction: TextInputAction.done,
                       decoration: const InputDecoration(
-                        // hintText: "Context",
-                        // hintStyle: TextStyleClass.appDiscriptionSmallStyle
-                        //     .copyWith(fontSize: 17),
                         border: InputBorder.none,
                       ),
                     ),
@@ -214,15 +207,21 @@ class _UpdatenotePageState extends State<UpdatenotePage> {
                       children: [
                         GestureDetector(
                           onTap: () async {
-                            //save a new note
+                            //update the selected note
                             if (_formKey.currentState!.validate()) {
-                              NoteModel note = NoteModel(
+                              try {
+                                NoteModel note = NoteModel(
                                   category: _selectedCategory,
                                   title: _titleController.text,
                                   description: _discriptionController.text,
-                                  dateTime: DateTime.now());
+                                  dateTime: DateTime.now(),
+                                  id: widget.note.id,  //track the id of current note
+                                );
 
-                              await noteServices.updateNote(note, context);
+                                await noteServices.updateNote(note, context);
+                              } catch (err) {
+                                print(err.toString());
+                              }
                             } else {
                               const CircularProgressIndicator();
                             }

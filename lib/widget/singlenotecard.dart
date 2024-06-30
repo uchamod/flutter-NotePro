@@ -8,13 +8,15 @@ class SingleNoteCard extends StatefulWidget {
   final String discription;
   final Future Function() editNote;
   final Future Function() deleteNote;
+  final Future Function() toFullNoteShowPage;
 
   const SingleNoteCard(
       {super.key,
       required this.title,
       required this.discription,
       required this.editNote,
-      required this.deleteNote});
+      required this.deleteNote,
+      required this.toFullNoteShowPage});
 
   @override
   State<SingleNoteCard> createState() => _SingleNoteCardState();
@@ -87,7 +89,23 @@ class _SingleNoteCardState extends State<SingleNoteCard> {
             style: TextStyleClass.appDiscriptionLargeStyle,
             maxLines: 6,
             overflow: TextOverflow.ellipsis,
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          GestureDetector(
+            onTap: widget.toFullNoteShowPage,
+               child: Text(
+              "Read more...",
+              style: TextStyleClass.appCardTitleStyle.copyWith(
+                fontWeight: FontWeight.w600,
+                fontSize: 18,
+                color: AppColors.readmoreblue,
+              ),
+            ),
           )
+           
+          
         ],
       ),
     );
