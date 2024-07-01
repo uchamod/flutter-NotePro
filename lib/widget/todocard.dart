@@ -1,19 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:note_sphere/util/colors.dart';
-import 'package:note_sphere/util/constants.dart';
 import 'package:note_sphere/util/textstyle.dart';
 
 class ToDoCard extends StatefulWidget {
   final String title;
   final String dateTime;
   final bool isDone;
-  const ToDoCard({super.key, required this.title, required this.dateTime, required this.isDone});
+  final Function() changeState;
+  const ToDoCard(
+      {super.key,
+      required this.title,
+      required this.dateTime,
+      required this.isDone,
+      required this.changeState});
 
   @override
   State<ToDoCard> createState() => _ToDoCardState();
 }
 
 class _ToDoCardState extends State<ToDoCard> {
+  bool done = false;
+  @override
+  void initState() {
+    isMark();
+    super.initState();
+  }
+
+  void isMark() {
+    done = widget.isDone;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -35,11 +51,11 @@ class _ToDoCardState extends State<ToDoCard> {
             ),
           ),
           trailing: Checkbox(
-            value: widget.isDone,
-            onChanged: (value) {},
+            value: done,
+            onChanged: (value) => widget.changeState(),
           ),
           subtitle: Text(
-           widget.dateTime,
+            widget.dateTime,
             style: TextStyleClass.appDiscriptionSmallStyle,
           ),
         ),

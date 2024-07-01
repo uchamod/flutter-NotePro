@@ -1,5 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:note_sphere/models/todomodel.dart';
+import 'package:note_sphere/util/colors.dart';
+import 'package:note_sphere/util/textstyle.dart';
 import 'package:uuid/uuid.dart';
 
 class TodoService {
@@ -48,5 +51,34 @@ class TodoService {
       return notes.cast<ToDoModel>().toList();
     }
     return [];
+  }
+
+  //change the state of todos
+  Future<void> changeMarkState(
+      ToDoModel checkedTodo, BuildContext context) async {
+    try {
+      dynamic todos = await _todoBox.get("todos");
+      List<ToDoModel> allTodos = [];
+      for (final todo in todos) {
+        if (todo.id == checkedTodo.id) {
+          todo.markAsDone = !todo.markAsDone;
+          allTodos.add(todo);
+        } else {
+          allTodos.add(todo);
+        }
+      }
+      await _todoBox.put("todos", allTodos);
+     
+    } catch (err) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            backgroundColor: AppColors.kcCardBlackColor,
+            duration: Duration(seconds: 1),
+            content: Text(
+              "something went wrong",
+              style: TextStyleClass.appSubTittleStyle,
+            )));
+      }
+    }
   }
 }

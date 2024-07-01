@@ -17,7 +17,7 @@ class ToDoModel {
   @HiveField(3)
   final DateTime time;
   @HiveField(4)
-  final bool markAsDone;
+  bool markAsDone;
 
   //generate random id
   ToDoModel(

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:note_sphere/models/todomodel.dart';
 import 'package:note_sphere/services/todoservice.dart';
+import 'package:note_sphere/util/colors.dart';
 import 'package:note_sphere/util/constants.dart';
+import 'package:note_sphere/util/textstyle.dart';
 import 'package:note_sphere/widget/todocard.dart';
 
 class IncompleteToDo extends StatefulWidget {
@@ -44,8 +46,28 @@ class _IncompleteToDoState extends State<IncompleteToDo> {
     });
   }
 
+  void _updateToDo(ToDoModel todo) async {
+    await _todoService.changeMarkState(todo, context);
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          backgroundColor: AppColors.kcCardBlackColor,
+          duration: Duration(seconds: 1),
+          content: Text(
+            "Mark as Done",
+            style: TextStyleClass.appSubTittleStyle,
+          )));
+    }
+    setState(() {
+      incompletedtodos.remove(todo);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    //sort according to time
+    setState(() {
+      incompletedtodos.sort((a, b) => a.time.compareTo(b.time));
+    });
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -64,6 +86,9 @@ class _IncompleteToDoState extends State<IncompleteToDo> {
                   //todo card
 
                   return ToDoCard(
+                    changeState: () async {
+                      _updateToDo(todo);
+                    },
                     isDone: todo.markAsDone,
                     title: todo.title,
                     dateTime:
