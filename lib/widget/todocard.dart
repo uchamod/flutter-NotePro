@@ -3,17 +3,17 @@ import 'package:note_sphere/util/colors.dart';
 import 'package:note_sphere/util/constants.dart';
 import 'package:note_sphere/util/textstyle.dart';
 
-class WorkCard extends StatefulWidget {
+class ToDoCard extends StatefulWidget {
   final String title;
   final String dateTime;
 
-  const WorkCard({super.key, required this.title, required this.dateTime});
+  const ToDoCard({super.key, required this.title, required this.dateTime});
 
   @override
-  State<WorkCard> createState() => _WorkCardState();
+  State<ToDoCard> createState() => _ToDoCardState();
 }
 
-class _WorkCardState extends State<WorkCard> {
+class _ToDoCardState extends State<ToDoCard> {
   @override
   Widget build(BuildContext context) {
     return Container(

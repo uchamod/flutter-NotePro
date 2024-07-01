@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:note_sphere/pages/completed_todopage.dart';
+import 'package:note_sphere/pages/incomplete_todopage.dart';
 import 'package:note_sphere/routes/routenames.dart';
+import 'package:note_sphere/util/colors.dart';
 import 'package:note_sphere/util/textstyle.dart';
 
-import 'package:note_sphere/widget/workcard.dart';
-
-import '../util/constants.dart';
-
+//todo-page using tab bar
 class ToDoPage extends StatefulWidget {
   const ToDoPage({super.key});
 
@@ -14,13 +14,25 @@ class ToDoPage extends StatefulWidget {
   State<ToDoPage> createState() => _ToDoPageState();
 }
 
-class _ToDoPageState extends State<ToDoPage> {
+//activate the tabcontroller using SingleTickerProviderStateMixin
+class _ToDoPageState extends State<ToDoPage>
+    with SingleTickerProviderStateMixin {
+  //tabbar controller : identify the tabs
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    //initilize the tab controller
+    _tabController = TabController(length: 2, vsync: this);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-            leading: GestureDetector(
+        leading: GestureDetector(
           onTap: () {
             GoRouter.of(context).goNamed(RouteNames.homepage);
           },
@@ -29,16 +41,48 @@ class _ToDoPageState extends State<ToDoPage> {
             size: 30,
           ),
         ),
-        title: const Text("To-Do List",style: TextStyleClass.appHeadingStyle,),
+
+        //add shiftable tab bar to the appbar
+        bottom: TabBar(
+          controller: _tabController,
+          dividerColor: AppColors.kcCardBlackColor,
+          indicatorColor: AppColors.kcTextWhiteColor,
+          automaticIndicatorColorAdjustment: true,
+          tabs: const [
+            Tab(
+              child: Text(
+                "ToDo",
+                style: TextStyleClass.appTittleStyle,
+              ),
+            ),
+            Tab(
+              child: Text(
+                "Completed",
+                style: TextStyleClass.appTittleStyle,
+              ),
+            )
+          ],
+        ),
       ),
-      body: const Padding(padding: EdgeInsets.symmetric(
-            horizontal: ConstantClass.kcDefultpadH,
-            vertical: ConstantClass.kcDefultpadV),
-            child: Column(
-              children: [
-               WorkCard(title: "Go to School", dateTime: "21,May 2024 10am",)
-              ],
-            ),),
+      //add tab viwes
+      floatingActionButton: FloatingActionButton(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(100),
+        ),
+        //show bottom sheet
+        onPressed: () {},
+        child: const Center(
+          child: Icon(
+            Icons.add,
+            size: 35,
+            color: AppColors.kcTextWhiteColor,
+          ),
+        ),
+      ),
+      body: TabBarView(controller: _tabController, children: const [
+        IncompleteToDo(),
+        CompletedToDo(),
+      ]),
     );
   }
 }

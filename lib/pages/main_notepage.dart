@@ -79,80 +79,80 @@ class _MainNotePageState extends State<MainNotePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          //route to homepage
-          leading: GestureDetector(
-            onTap: () {
-              GoRouter.of(context).goNamed(RouteNames.homepage);
-            },
-            child: const Icon(
-              Icons.arrow_back_rounded,
-              size: 30,
-            ),
-          ),
-          title: const Text(
-            "Notes",
-            style: TextStyleClass.appHeadingStyle,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        //route to homepage
+        leading: GestureDetector(
+          onTap: () {
+            GoRouter.of(context).goNamed(RouteNames.homepage);
+          },
+          child: const Icon(
+            Icons.arrow_back_rounded,
+            size: 30,
           ),
         ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(
-              horizontal: ConstantClass.kcDefultpadH,
-              vertical: ConstantClass.kcDefultpadV),
-          child: Column(
-            children: [
-              //show all the notes acording to category
-              allnotes.isEmpty
-                  ? const Center(
-                      child: Text(
-                      "No notes avalible\nadd some notes here",
-                      style: TextStyleClass.appCardTitleStyle,
-                    ))
-                  : GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              mainAxisSpacing: 15,
-                              crossAxisSpacing: 15,
-                              childAspectRatio: 16 / 11),
-                      scrollDirection: Axis.vertical,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: notesByCategory.length,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        //route to singlenotepage
-                        return GestureDetector(
-                          onTap: () {
-                            GoRouter.of(context).goNamed(
-                                RouteNames.singlenotepage,
-                                extra: notesByCategory.keys.elementAt(index));
-                          },
-                          child: NoteCard(
-                              category: notesByCategory.keys.elementAt(index),
-                              numOfNotes: notesByCategory.values
-                                  .elementAt(index)
-                                  .length),
-                        );
-                      },
-                    )
-            ],
+        title: const Text(
+          "Notes",
+          style: TextStyleClass.appHeadingStyle,
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(
+            horizontal: ConstantClass.kcDefultpadH,
+            vertical: ConstantClass.kcDefultpadV),
+        child: Column(
+          children: [
+            //show all the notes acording to category
+            allnotes.isEmpty
+                ? const Center(
+                    child: Text(
+                    "No notes avalible\nadd some notes here",
+                    style: TextStyleClass.appCardTitleStyle,
+                  ))
+                : GridView.builder(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 15,
+                            crossAxisSpacing: 15,
+                            childAspectRatio: 16 / 11),
+                    scrollDirection: Axis.vertical,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: notesByCategory.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      //route to singlenotepage
+                      return GestureDetector(
+                        onTap: () {
+                          GoRouter.of(context).goNamed(
+                              RouteNames.singlenotepage,
+                              extra: notesByCategory.keys.elementAt(index));
+                        },
+                        child: NoteCard(
+                            category: notesByCategory.keys.elementAt(index),
+                            numOfNotes:
+                                notesByCategory.values.elementAt(index).length),
+                      );
+                    },
+                  )
+          ],
+        ),
+      ),
+      //add new note
+      floatingActionButton: FloatingActionButton(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(100),
+        ),
+        //show bottom sheet
+        onPressed: openModelBottomSheet,
+        child: const Center(
+          child: Icon(
+            Icons.add,
+            size: 35,
+            color: AppColors.kcTextWhiteColor,
           ),
         ),
-        //add new note
-        floatingActionButton: FloatingActionButton(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(100),
-          ),
-          //show bottom sheet
-          onPressed: openModelBottomSheet,
-          child: const Center(
-            child: Icon(
-              Icons.add,
-              size: 35,
-              color: AppColors.kcTextWhiteColor,
-            ),
-          ),
-        ));
+      ),
+    );
   }
 }
