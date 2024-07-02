@@ -50,8 +50,11 @@ class _ToDoCardState extends State<ToDoCard> {
               style: TextStyleClass.appCardTitleStyle,
             ),
           ),
+          //checkbox
           trailing: Checkbox(
             value: done,
+            activeColor: AppColors.kcTextWhiteColor,
+            //bind the function
             onChanged: (value) => widget.changeState(),
           ),
           subtitle: Text(

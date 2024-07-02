@@ -68,7 +68,69 @@ class TodoService {
         }
       }
       await _todoBox.put("todos", allTodos);
-     
+    } catch (err) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            backgroundColor: AppColors.kcCardBlackColor,
+            duration: Duration(seconds: 1),
+            content: Text(
+              "something went wrong",
+              style: TextStyleClass.appSubTittleStyle,
+            )));
+      }
+    }
+  }
+
+  //delete a todo
+  Future<void> deleteTodo(ToDoModel todo, BuildContext context) async {
+    try {
+      dynamic alltodos = await _todoBox.get("todos");
+      int index = alltodos.indexWhere((ele) => ele.id == todo.id);
+      alltodos.removeAt(index);
+      await _todoBox.put("todos", alltodos);
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            backgroundColor: AppColors.kcCardBlackColor,
+            duration: Duration(seconds: 1),
+            content: Text(
+              "Todo is deleted",
+              style: TextStyleClass.appSubTittleStyle,
+            ),
+          ),
+        );
+      }
+    } catch (err) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            backgroundColor: AppColors.kcCardBlackColor,
+            duration: Duration(seconds: 1),
+            content: Text(
+              "something went wrong",
+              style: TextStyleClass.appSubTittleStyle,
+            ),
+          ),
+        );
+      }
+    }
+  }
+
+  //add new todo
+  Future<void> addNewTodo(ToDoModel todo, BuildContext context) async {
+    try {
+      dynamic alltodos = await _todoBox.get("todos");
+      alltodos.add(todo);
+      await _todoBox.put("todos", alltodos);
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            backgroundColor: AppColors.kcCardBlackColor,
+            duration: Duration(seconds: 1),
+            content: Text(
+              "New ToDo is Added",
+              style: TextStyleClass.appSubTittleStyle,
+            )));
+      }
     } catch (err) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

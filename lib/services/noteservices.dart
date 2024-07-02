@@ -185,6 +185,5 @@ class NoteServices {
       }
     }
   }
-  //update a note
   
 }

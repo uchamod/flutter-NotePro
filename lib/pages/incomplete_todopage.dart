@@ -45,6 +45,7 @@ class _IncompleteToDoState extends State<IncompleteToDo> {
       incompletedtodos = alltodos.where((todo) => !todo.markAsDone).toList();
     });
   }
+  //update the todo
 
   void _updateToDo(ToDoModel todo) async {
     await _todoService.changeMarkState(todo, context);
@@ -57,6 +58,14 @@ class _IncompleteToDoState extends State<IncompleteToDo> {
             style: TextStyleClass.appSubTittleStyle,
           )));
     }
+    setState(() {
+      incompletedtodos.remove(todo);
+    });
+  }
+
+  //delete the todo
+  void _deletedTodo(ToDoModel todo) async {
+    await _todoService.deleteTodo(todo, context);
     setState(() {
       incompletedtodos.remove(todo);
     });
@@ -76,26 +85,78 @@ class _IncompleteToDoState extends State<IncompleteToDo> {
           child: Column(
             children: [
               //show to  do list
-              ListView.builder(
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: incompletedtodos.length,
-                itemBuilder: (context, index) {
-                  ToDoModel todo = incompletedtodos[index];
-                  //todo card
+              incompletedtodos.isEmpty
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const SizedBox(
+                          height: 200,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Add Your ",
+                              style: TextStyleClass.appHeadingStyle.copyWith(
+                                color: AppColors.kcTextWhiteColorShadow,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            Text(
+                              "ToDos ",
+                              style: TextStyleClass.appTittleStyle.copyWith(
+                                fontSize: 32,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            Text(
+                              "Here",
+                              style: TextStyleClass.appHeadingStyle.copyWith(
+                                color: AppColors.kcTextWhiteColorShadow,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Icon(
+                          Icons.today_outlined,
+                          size: 150,
+                          color:
+                              AppColors.kcTextWhiteColorShadow.withOpacity(0.2),
+                        )
+                      ],
+                    )
+                  : ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: incompletedtodos.length,
+                      itemBuilder: (context, index) {
+                        ToDoModel todo = incompletedtodos[index];
+                        //todo card
 
-                  return ToDoCard(
-                    changeState: () async {
-                      _updateToDo(todo);
-                    },
-                    isDone: todo.markAsDone,
-                    title: todo.title,
-                    dateTime:
-                        "${todo.date.day}/${todo.date.month}/${todo.date.year} ${todo.date.hour}:${todo.date.minute}",
-                  );
-                },
-              ),
+                        return Dismissible(
+                          key: ValueKey(todo),
+                          direction: DismissDirection.startToEnd,
+                          onDismissed: (direction) async {
+                            _deletedTodo(todo);
+                          },
+                          child: ToDoCard(
+                            changeState: () async {
+                              _updateToDo(todo);
+                            },
+                            isDone: todo.markAsDone,
+                            title: todo.title,
+                            dateTime:
+                                "${todo.date.day}/${todo.date.month}/${todo.date.year} ${todo.date.hour}:${todo.date.minute}",
+                          ),
+                        );
+                      },
+                    ),
             ],
           ),
         ),
