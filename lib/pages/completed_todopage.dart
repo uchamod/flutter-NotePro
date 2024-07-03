@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:note_sphere/models/todomodel.dart';
+import 'package:note_sphere/pages/homepage.dart';
 import 'package:note_sphere/services/todoservice.dart';
 import 'package:note_sphere/util/colors.dart';
 import 'package:note_sphere/util/constants.dart';
@@ -125,6 +126,10 @@ class _CompletedToDoState extends State<CompletedToDo> {
                           child: ToDoCard(
                             changeState: () async {
                               _updateToDo(todo);
+
+                              setState(() {
+                                HomePage();
+                              });
                             },
                             isDone: todo.markAsDone,
                             title: todo.title,

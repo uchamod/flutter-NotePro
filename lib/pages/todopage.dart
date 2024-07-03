@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:note_sphere/models/todomodel.dart';
 import 'package:note_sphere/pages/completed_todopage.dart';
+import 'package:note_sphere/pages/homepage.dart';
 import 'package:note_sphere/pages/incomplete_todopage.dart';
 import 'package:note_sphere/routes/routenames.dart';
 import 'package:note_sphere/services/todoservice.dart';
@@ -43,11 +44,13 @@ class _ToDoPageState extends State<ToDoPage>
     }
 
     Navigator.of(context).pop();
-    GoRouter.of(context).goNamed(RouteNames.todopage);
+
     _controller.clear();
     setState(() {
       const IncompleteToDo();
+      const HomePage();
     });
+    GoRouter.of(context).goNamed(RouteNames.todopage);
   }
 
   //todo adding disalog box

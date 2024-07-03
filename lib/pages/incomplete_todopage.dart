@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:note_sphere/models/todomodel.dart';
+import 'package:note_sphere/pages/homepage.dart';
 import 'package:note_sphere/services/todoservice.dart';
 import 'package:note_sphere/util/colors.dart';
 import 'package:note_sphere/util/constants.dart';
@@ -53,9 +54,24 @@ class _IncompleteToDoState extends State<IncompleteToDo> {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           backgroundColor: AppColors.kcCardBlackColor,
           duration: Duration(seconds: 1),
-          content: Text(
-            "Mark as Done",
-            style: TextStyleClass.appSubTittleStyle,
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Icon(
+                Icons.check,
+                color: AppColors.kcTextWhiteColor,
+                size: 20,
+                weight: 20,
+                opticalSize: 30,
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Text(
+                "Done",
+                style: TextStyleClass.appSubTittleStyle,
+              ),
+            ],
           )));
     }
     setState(() {
@@ -148,6 +164,9 @@ class _IncompleteToDoState extends State<IncompleteToDo> {
                           child: ToDoCard(
                             changeState: () async {
                               _updateToDo(todo);
+                              setState(() {
+                                HomePage();
+                              });
                             },
                             isDone: todo.markAsDone,
                             title: todo.title,

@@ -6,7 +6,7 @@ import 'package:note_sphere/util/textstyle.dart';
 class CategoryCard extends StatefulWidget {
   final IconData icon;
   final String title;
-  final double numOfTasks;
+  final int numOfTasks;
   final String subText;
   const CategoryCard(
       {super.key,
