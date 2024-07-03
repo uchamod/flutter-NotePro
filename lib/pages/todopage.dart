@@ -21,20 +21,48 @@ class _ToDoPageState extends State<ToDoPage>
     with SingleTickerProviderStateMixin {
   //tabbar controller : identify the tabs
   late TabController _tabController;
-  TextEditingController _controller = TextEditingController();
-  TodoService _todoService = TodoService();
+  final TextEditingController _controller = TextEditingController();
+  final TodoService _todoService = TodoService();
+  List<ToDoModel> alltodos = [];
+  List<ToDoModel> completedtodos = [];
+  List<ToDoModel> incompletedtodos = [];
+
   @override
   void initState() {
     //initilize the tab controller
+    _isNewUser();
+    _loadTodos();
     _tabController = TabController(length: 2, vsync: this);
     super.initState();
   }
-
   @override
   void dispose() {
     _controller.dispose();
     _tabController.dispose();
     super.dispose();
+  }
+
+
+  //check user  is new
+  void _isNewUser() async {
+    bool isUserNew = await _todoService.isNewUser();
+    if (isUserNew) {
+      await _todoService.saveInitialTodos();
+    }
+  }
+
+  //load the the todos from storge
+  Future<void> _loadTodos() async {
+    List<ToDoModel> todos = await _todoService.loadTodos();
+    setState(() {
+      //get all todos
+      alltodos = todos;
+
+      //completted todos
+      completedtodos = alltodos.where((todo) => todo.markAsDone).toList();
+      //incompleted todos
+      incompletedtodos = alltodos.where((todo) => !todo.markAsDone).toList();
+    });
   }
 
   void _addNewTask(ToDoModel todo, BuildContext context) async {
@@ -45,11 +73,12 @@ class _ToDoPageState extends State<ToDoPage>
     Navigator.of(context).pop();
     GoRouter.of(context).goNamed(RouteNames.todopage);
     _controller.clear();
-    setState(() {
-      const IncompleteToDo();
-    });
+    _loadTodos();
   }
 
+ 
+
+  
   //todo adding disalog box
   void _openDialogBox(BuildContext context) {
     showDialog(
@@ -181,9 +210,13 @@ class _ToDoPageState extends State<ToDoPage>
           ),
         ),
       ),
-      body: TabBarView(controller: _tabController, children: const [
-        IncompleteToDo(),
-        CompletedToDo(),
+      body: TabBarView(controller: _tabController, children: [
+        IncompleteToDo(
+          inCompletedToDos: incompletedtodos,
+        ),
+        CompletedToDo(
+          completedToDos: completedtodos,
+        ),
       ]),
     );
   }

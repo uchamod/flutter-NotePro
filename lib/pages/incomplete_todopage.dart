@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:note_sphere/models/todomodel.dart';
+import 'package:note_sphere/routes/routenames.dart';
 import 'package:note_sphere/services/todoservice.dart';
 import 'package:note_sphere/util/colors.dart';
 import 'package:note_sphere/util/constants.dart';
@@ -7,7 +9,8 @@ import 'package:note_sphere/util/textstyle.dart';
 import 'package:note_sphere/widget/todocard.dart';
 
 class IncompleteToDo extends StatefulWidget {
-  const IncompleteToDo({super.key});
+  final List<ToDoModel> inCompletedToDos;
+  const IncompleteToDo({super.key, required this.inCompletedToDos});
 
   @override
   State<IncompleteToDo> createState() => _IncompleteToDoState();
@@ -17,38 +20,19 @@ class _IncompleteToDoState extends State<IncompleteToDo> {
   //instant for todo service
   final TodoService _todoService = TodoService();
 
-  List<ToDoModel> alltodos = [];
-  List<ToDoModel> incompletedtodos = [];
-
   @override
   void initState() {
-    _isNewUser();
-    _loadTodos();
     super.initState();
   }
 
-  //check user is new and save the initial data in storage
-  void _isNewUser() async {
-    bool isUserNew = await _todoService.isNewUser();
-    if (isUserNew) {
-      await _todoService.saveInitialTodos();
-    }
-  }
-
-  //load the current data
-  Future<void> _loadTodos() async {
-    List<ToDoModel> todos = await _todoService.loadTodos();
-    setState(() {
-      alltodos = todos;
-
-      //incompleted todos
-      incompletedtodos = alltodos.where((todo) => !todo.markAsDone).toList();
-    });
-  }
-  //update the todo
-
   void _updateToDo(ToDoModel todo) async {
-    await _todoService.changeMarkState(todo, context);
+    ToDoModel Updatedtodo = ToDoModel(
+        id: todo.id,
+        time: todo.time,
+        title: todo.title,
+        date: todo.date,
+        markAsDone: true);
+    await _todoService.changeMarkState(Updatedtodo, context);
     if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           backgroundColor: AppColors.kcCardBlackColor,
@@ -59,23 +43,18 @@ class _IncompleteToDoState extends State<IncompleteToDo> {
           )));
     }
     setState(() {
-      incompletedtodos.remove(todo);
+      widget.inCompletedToDos.remove(todo);
     });
-  }
-
-  //delete the todo
-  void _deletedTodo(ToDoModel todo) async {
-    await _todoService.deleteTodo(todo, context);
-    setState(() {
-      incompletedtodos.remove(todo);
-    });
+     if (context.mounted) {
+      GoRouter.of(context).go("/todopage");
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     //sort according to time
     setState(() {
-      incompletedtodos.sort((a, b) => a.time.compareTo(b.time));
+      widget.inCompletedToDos.sort((a, b) => a.time.compareTo(b.time));
     });
     return Scaffold(
       body: SingleChildScrollView(
@@ -85,7 +64,7 @@ class _IncompleteToDoState extends State<IncompleteToDo> {
           child: Column(
             children: [
               //show to  do list
-              incompletedtodos.isEmpty
+              widget.inCompletedToDos.isEmpty
                   ? Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -134,25 +113,24 @@ class _IncompleteToDoState extends State<IncompleteToDo> {
                       shrinkWrap: true,
                       scrollDirection: Axis.vertical,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: incompletedtodos.length,
+                      itemCount: widget.inCompletedToDos.length,
                       itemBuilder: (context, index) {
-                        ToDoModel todo = incompletedtodos[index];
+                        ToDoModel todo = widget.inCompletedToDos[index];
                         //todo card
 
                         return Dismissible(
                           key: ValueKey(todo),
                           direction: DismissDirection.startToEnd,
                           onDismissed: (direction) async {
-                            _deletedTodo(todo);
+                            setState(() {
+                              widget.inCompletedToDos.removeAt(index);
+                              _todoService.deleteTodo(todo, context);
+                            });
                           },
                           child: ToDoCard(
-                            changeState: () async {
-                              _updateToDo(todo);
-                            },
-                            isDone: todo.markAsDone,
-                            title: todo.title,
-                            dateTime:
-                                "${todo.date.day}/${todo.date.month}/${todo.date.year} ${todo.date.hour}:${todo.date.minute}",
+                            changeState: () => _updateToDo(todo),
+                            isDone: false,
+                            todo: todo,
                           ),
                         );
                       },

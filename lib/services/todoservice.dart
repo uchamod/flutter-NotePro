@@ -57,16 +57,10 @@ class TodoService {
   Future<void> changeMarkState(
       ToDoModel checkedTodo, BuildContext context) async {
     try {
-      dynamic todos = await _todoBox.get("todos");
-      List<ToDoModel> allTodos = [];
-      for (final todo in todos) {
-        if (todo.id == checkedTodo.id) {
-          todo.markAsDone = !todo.markAsDone;
-          allTodos.add(todo);
-        } else {
-          allTodos.add(todo);
-        }
-      }
+      final dynamic allTodos = await _todoBox.get("todos");
+      final int index =
+          allTodos.indexWhere((element) => element.id == checkedTodo.id);
+      allTodos[index] = checkedTodo;
       await _todoBox.put("todos", allTodos);
     } catch (err) {
       if (context.mounted) {
