@@ -5,7 +5,7 @@ import 'package:note_sphere/models/notemodel.dart';
 import 'package:note_sphere/models/todomodel.dart';
 import 'package:note_sphere/routes/routings.dart';
 import 'package:note_sphere/util/themedata.dart';
-
+//this is a sub branch
 void main() async {
   //initilize hive in flutter
   await Hive.initFlutter();
