@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note_sphere/ingerited/todo_inherited_widget.dart';
 import 'package:note_sphere/models/todomodel.dart';
 import 'package:note_sphere/pages/homepage.dart';
 import 'package:note_sphere/services/todoservice.dart';
@@ -77,69 +78,74 @@ class _CompletedToDoState extends State<CompletedToDo> {
     setState(() {
       completedtodos.sort((a, b) => a.time.compareTo(b.time));
     });
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-              horizontal: 10, vertical: ConstantClass.kcDefultContainerPadV),
-          child: Column(
-            children: [
-              completedtodos.isEmpty
-                  ? Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const SizedBox(
-                          height: 200,
-                        ),
-                        Center(
-                          child: Text(
-                            "No Completed Todos",
-                            style: TextStyleClass.appHeadingStyle.copyWith(
-                              color: AppColors.kcTextWhiteColorShadow,
-                              fontWeight: FontWeight.w600,
+     //wrap with inherit widget
+    return ToDoData(
+      todos: alltodos,
+      onToDoChanged: _loadTodos,
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: 10, vertical: ConstantClass.kcDefultContainerPadV),
+            child: Column(
+              children: [
+                completedtodos.isEmpty
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const SizedBox(
+                            height: 200,
+                          ),
+                          Center(
+                            child: Text(
+                              "No Completed Todos",
+                              style: TextStyleClass.appHeadingStyle.copyWith(
+                                color: AppColors.kcTextWhiteColorShadow,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
-                        ),
-                        Icon(
-                          Icons.edit_note_outlined,
-                          size: 150,
-                          color:
-                              AppColors.kcTextWhiteColorShadow.withOpacity(0.2),
-                        )
-                      ],
-                    )
-                  : ListView.builder(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.vertical,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: completedtodos.length,
-                      itemBuilder: (context, index) {
-                        ToDoModel todo = completedtodos[index];
-                        //todo card
-
-                        return Dismissible(
-                          key: ValueKey(todo),
-                          direction: DismissDirection.startToEnd,
-                          onDismissed: (direction) async {
-                            _deletedTodo(todo);
-                          },
-                          child: ToDoCard(
-                            changeState: () async {
-                              _updateToDo(todo);
-
-                              setState(() {
-                                HomePage();
-                              });
+                          Icon(
+                            Icons.edit_note_outlined,
+                            size: 150,
+                            color:
+                                AppColors.kcTextWhiteColorShadow.withOpacity(0.2),
+                          )
+                        ],
+                      )
+                    : ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: completedtodos.length,
+                        itemBuilder: (context, index) {
+                          ToDoModel todo = completedtodos[index];
+                          //todo card
+      
+                          return Dismissible(
+                            key: ValueKey(todo),
+                            direction: DismissDirection.startToEnd,
+                            onDismissed: (direction) async {
+                              _deletedTodo(todo);
                             },
-                            isDone: todo.markAsDone,
-                            title: todo.title,
-                            dateTime:
-                                "${todo.date.day}/${todo.date.month}/${todo.date.year} ${todo.time.hour}:${todo.time.minute}",
-                          ),
-                        );
-                      },
-                    ),
-            ],
+                            child: ToDoCard(
+                              changeState: () async {
+                                _updateToDo(todo);
+      
+                                setState(() {
+                                  HomePage();
+                                });
+                              },
+                              isDone: todo.markAsDone,
+                              title: todo.title,
+                              dateTime:
+                                  "${todo.date.day}/${todo.date.month}/${todo.date.year} ${todo.time.hour}:${todo.time.minute}",
+                            ),
+                          );
+                        },
+                      ),
+              ],
+            ),
           ),
         ),
       ),
