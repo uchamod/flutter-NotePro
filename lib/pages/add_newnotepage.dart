@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:note_sphere/models/notemodel.dart';
+import 'package:note_sphere/providers/note_provider.dart';
 import 'package:note_sphere/routes/routenames.dart';
-import 'package:note_sphere/services/noteservices.dart';
 import 'package:note_sphere/util/colors.dart';
 import 'package:note_sphere/util/constants.dart';
 import 'package:note_sphere/util/textstyle.dart';
+import 'package:provider/provider.dart';
 
 class AddNewNote extends StatefulWidget {
   final bool isNormal;
@@ -16,9 +17,6 @@ class AddNewNote extends StatefulWidget {
 }
 
 class _AddNewNoteState extends State<AddNewNote> {
-  List<String> allCategories = [];
-  NoteServices noteServices = NoteServices();
-
   //form key
   final _formKey = GlobalKey<FormState>();
   //field controllers
@@ -26,22 +24,9 @@ class _AddNewNoteState extends State<AddNewNote> {
   final TextEditingController _discriptionController = TextEditingController();
   final TextEditingController _categoryController = TextEditingController();
   String _selectedCategory = "";
-  @override
-  void initState() {
-    // TODO: implement initState
-    setState(() {
-      _loadCategories();
-    });
-    super.initState();
-  }
-
-  void _loadCategories() async {
-    allCategories = await noteServices.getAllCategories();
-  }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _categoryController.dispose();
     _discriptionController.dispose();
     _titleController.dispose();
@@ -50,6 +35,9 @@ class _AddNewNoteState extends State<AddNewNote> {
 
   @override
   Widget build(BuildContext context) {
+    final noteProvider = Provider.of<NoteProvider>(context);
+    final allCategories = noteProvider.categories;
+
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -264,7 +252,7 @@ class _AddNewNoteState extends State<AddNewNote> {
                                 description: _discriptionController.text,
                                 dateTime: DateTime.now());
 
-                            noteServices.saveNewNote(note, context);
+                            noteProvider.saveNewNote(note, context);
                           } else {
                             const CircularProgressIndicator();
                           }

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:note_sphere/models/notemodel.dart';
+import 'package:note_sphere/providers/note_provider.dart';
 import 'package:note_sphere/routes/routenames.dart';
-import 'package:note_sphere/services/noteservices.dart';
 import 'package:note_sphere/util/colors.dart';
 import 'package:note_sphere/util/constants.dart';
 import 'package:note_sphere/util/textstyle.dart';
+import 'package:provider/provider.dart';
 
 //edit note page
 class UpdatenotePage extends StatefulWidget {
@@ -20,9 +21,6 @@ class UpdatenotePage extends StatefulWidget {
 }
 
 class _UpdatenotePageState extends State<UpdatenotePage> {
-  List<String> allCategories = [];
-  NoteServices noteServices = NoteServices();
-
   //form key
   final _formKey = GlobalKey<FormState>();
   //field controllers
@@ -30,20 +28,16 @@ class _UpdatenotePageState extends State<UpdatenotePage> {
   final TextEditingController _discriptionController = TextEditingController();
 
   String _selectedCategory = "";
+  
   @override
   void initState() {
   
     setState(() {
-      _loadCategories();
       _selectedCategory = widget.note.category;
       _titleController.text = widget.note.title;
       _discriptionController.text = widget.note.description;
     });
     super.initState();
-  }
-
-  void _loadCategories() async {
-    allCategories = await noteServices.getAllCategories();
   }
 
   @override
@@ -57,6 +51,9 @@ class _UpdatenotePageState extends State<UpdatenotePage> {
 
   @override
   Widget build(BuildContext context) {
+    final noteProvider = Provider.of<NoteProvider>(context);
+    final allCategories = noteProvider.categories;
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -218,7 +215,7 @@ class _UpdatenotePageState extends State<UpdatenotePage> {
                                   id: widget.note.id,  //track the id of current note
                                 );
 
-                                await noteServices.updateNote(note, context);
+                                await noteProvider.updateNote(note, context);
                               } catch (err) {
                                 print(err.toString());
                               }

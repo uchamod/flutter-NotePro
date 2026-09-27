@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:note_sphere/ingerited/todo_inherited_widget.dart';
 import 'package:note_sphere/models/notemodel.dart';
 import 'package:note_sphere/models/todomodel.dart';
+import 'package:note_sphere/providers/note_provider.dart';
+import 'package:note_sphere/providers/todo_provider.dart';
 import 'package:note_sphere/routes/routings.dart';
 import 'package:note_sphere/util/themedata.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   //initilize hive in flutter
@@ -26,10 +28,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //configure the inherited widget
-    return ToDoData(
-      todos: [],
-      onToDoChanged: () {},
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => TodoProvider()..initData()),
+        ChangeNotifierProvider(create: (_) => NoteProvider()..initData()),
+      ],
       //wrap with router
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

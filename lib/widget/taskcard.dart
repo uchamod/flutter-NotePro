@@ -26,7 +26,9 @@ class _TaskCardState extends State<TaskCard> {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width * 1,
-      height: MediaQuery.of(context).size.height * 0.1,
+      constraints: BoxConstraints(
+        minHeight: MediaQuery.of(context).size.height * 0.1,
+      ),
       margin: const EdgeInsets.only(bottom: 10),
       padding: const EdgeInsets.symmetric(
           horizontal: ConstantClass.kcDefultpadH,
@@ -38,14 +40,16 @@ class _TaskCardState extends State<TaskCard> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  widget.title,
-                  style: TextStyleClass.appCardTitleStyle,
-                ),
+          Expanded(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.title,
+                    style: TextStyleClass.appCardTitleStyle,
+                  ),
+                  const SizedBox(height: 5),
                 Row(
                   children: [
                     Text(
@@ -60,8 +64,10 @@ class _TaskCardState extends State<TaskCard> {
                       style: TextStyleClass.appDiscriptionSmallStyle,
                     ),
                   ],
-                )
-              ]),
+                ),
+            ]),
+          ),
+          const SizedBox(width: 10),
           Icon(
             widget.isCompleted ? Icons.done_all_rounded : Icons.done,
             color: widget.iconColor,

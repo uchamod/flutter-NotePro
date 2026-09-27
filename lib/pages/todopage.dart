@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:note_sphere/models/todomodel.dart';
 import 'package:note_sphere/pages/completed_todopage.dart';
-import 'package:note_sphere/pages/homepage.dart';
 import 'package:note_sphere/pages/incomplete_todopage.dart';
+import 'package:note_sphere/providers/todo_provider.dart';
 import 'package:note_sphere/routes/routenames.dart';
-import 'package:note_sphere/services/todoservice.dart';
 import 'package:note_sphere/util/colors.dart';
 import 'package:note_sphere/util/textstyle.dart';
+import 'package:provider/provider.dart';
 
 //todo-page using tab bar
 class ToDoPage extends StatefulWidget {
@@ -23,7 +23,7 @@ class _ToDoPageState extends State<ToDoPage>
   //tabbar controller : identify the tabs
   late TabController _tabController;
   final TextEditingController _controller = TextEditingController();
-  final TodoService _todoService = TodoService();
+  
   @override
   void initState() {
     //initilize the tab controller
@@ -40,7 +40,7 @@ class _ToDoPageState extends State<ToDoPage>
 
   void _addNewTask(ToDoModel todo, BuildContext context) async {
     if (todo.title.isNotEmpty) {
-      await _todoService.addNewTodo(todo, context);
+      await Provider.of<TodoProvider>(context, listen: false).addNewTodo(todo, context);
     }
     if (!mounted) return;
 

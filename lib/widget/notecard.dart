@@ -17,7 +17,9 @@ class _NoteCardState extends State<NoteCard> {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width * 0.44,
-      height: MediaQuery.of(context).size.height * 0.14,
+      constraints: BoxConstraints(
+        minHeight: MediaQuery.of(context).size.height * 0.14,
+      ),
       padding: const EdgeInsets.symmetric(
           horizontal: ConstantClass.kcDefultpadH,
           vertical: ConstantClass.kcDefultContainerPadV),

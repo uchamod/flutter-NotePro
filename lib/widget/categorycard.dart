@@ -23,7 +23,9 @@ class _CategoryCardState extends State<CategoryCard> {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width * 0.45,
-      height: MediaQuery.of(context).size.height * 0.15,
+      constraints: BoxConstraints(
+        minHeight: MediaQuery.of(context).size.height * 0.15,
+      ),
       padding: const EdgeInsets.symmetric(
           horizontal: ConstantClass.kcDefultpadH,
           vertical: ConstantClass.kcDefultContainerPadV),

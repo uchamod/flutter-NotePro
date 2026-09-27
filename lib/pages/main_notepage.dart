@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:note_sphere/models/notemodel.dart';
+import 'package:note_sphere/providers/note_provider.dart';
 import 'package:note_sphere/routes/routenames.dart';
-import 'package:note_sphere/services/noteservices.dart';
 import 'package:note_sphere/util/colors.dart';
 import 'package:note_sphere/util/constants.dart';
 import 'package:note_sphere/util/textstyle.dart';
 import 'package:note_sphere/widget/noteadding_bottomsheet.dart';
 import 'package:note_sphere/widget/notecard.dart';
+import 'package:provider/provider.dart';
 
 //show allNote class
 class MainNotePage extends StatefulWidget {
@@ -18,42 +18,7 @@ class MainNotePage extends StatefulWidget {
 }
 
 class _MainNotePageState extends State<MainNotePage> {
-  //instance for noteservices
-  NoteServices noteServices = NoteServices();
-  //allnotes in storage
-  List<NoteModel> allnotes = [];
-  //notes by category
-  Map<String, List<NoteModel>> notesByCategory = {};
-
-  @override
-  void initState() {
-  
-    _checkIsUserNew();
-    _loadnotes();
-    super.initState();
-  }
-
-  //check is user new
-  void _checkIsUserNew() async {
-    final bool isNewUser = await noteServices.isNewUser();
-
-    if (isNewUser) {
-      await noteServices.saveInitialNotes();
-    }
-  }
-
-  //loaded notes from storage and assign to list and map by category
-  Future<void> _loadnotes() async {
-    final List<NoteModel> notes = await noteServices.loadNotes();
-    Map<String, List<NoteModel>> noteMap =
-        noteServices.getNoteByCategory(notes);
-    setState(() {
-      allnotes = notes;
-      notesByCategory = noteMap;
-    });
-  }
-
-//method for show the bottom sheet
+  //method for show the bottom sheet
   void openModelBottomSheet() {
     showModalBottomSheet(
       context: context,
@@ -96,47 +61,54 @@ class _MainNotePageState extends State<MainNotePage> {
           style: TextStyleClass.appHeadingStyle,
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-            horizontal: ConstantClass.kcDefultpadH,
-            vertical: ConstantClass.kcDefultpadV),
-        child: Column(
-          children: [
-            //show all the notes acording to category
-            allnotes.isEmpty
-                ? const Center(
-                    child: Text(
-                    "No notes avalible\nadd some notes here",
-                    style: TextStyleClass.appCardTitleStyle,
-                  ))
-                : GridView.builder(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            mainAxisSpacing: 15,
-                            crossAxisSpacing: 15,
-                            childAspectRatio: 16 / 11),
-                    scrollDirection: Axis.vertical,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: notesByCategory.length,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      //route to singlenotepage
-                      return GestureDetector(
-                        onTap: () {
-                          GoRouter.of(context).goNamed(
-                              RouteNames.singlenotepage,
-                              extra: notesByCategory.keys.elementAt(index));
+      body: Consumer<NoteProvider>(
+        builder: (context, noteProvider, child) {
+          final allnotes = noteProvider.notes;
+          final notesByCategory = noteProvider.notesByCategory;
+
+          return Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: ConstantClass.kcDefultpadH,
+                vertical: ConstantClass.kcDefultpadV),
+            child: Column(
+              children: [
+                //show all the notes acording to category
+                allnotes.isEmpty
+                    ? const Center(
+                        child: Text(
+                        "No notes avalible\nadd some notes here",
+                        style: TextStyleClass.appCardTitleStyle,
+                      ))
+                    : GridView.builder(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                mainAxisSpacing: 15,
+                                crossAxisSpacing: 15,
+                                childAspectRatio: 16 / 11),
+                        scrollDirection: Axis.vertical,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: notesByCategory.length,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          //route to singlenotepage
+                          return GestureDetector(
+                            onTap: () {
+                              GoRouter.of(context).goNamed(
+                                  RouteNames.singlenotepage,
+                                  extra: notesByCategory.keys.elementAt(index));
+                            },
+                            child: NoteCard(
+                                category: notesByCategory.keys.elementAt(index),
+                                numOfNotes:
+                                    notesByCategory.values.elementAt(index).length),
+                          );
                         },
-                        child: NoteCard(
-                            category: notesByCategory.keys.elementAt(index),
-                            numOfNotes:
-                                notesByCategory.values.elementAt(index).length),
-                      );
-                    },
-                  )
-          ],
-        ),
+                      )
+              ],
+            ),
+          );
+        },
       ),
       //add new note
       floatingActionButton: FloatingActionButton(

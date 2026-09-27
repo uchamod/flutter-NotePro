@@ -36,22 +36,24 @@ class _ProgressCardState extends State<ProgressCard> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                "Overall Progress",
-                style: TextStyleClass.appTittleStyle,
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              Text(
-                "You have completed ${widget.completeTask} out of ${widget.allTask} tasks\nkeep up your progress",
-                style: TextStyleClass.appDiscriptionSmallStyle,
-              ),
-            ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  "Overall Progress",
+                  style: TextStyleClass.appTittleStyle,
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                Text(
+                  "You have completed ${widget.completeTask} out of ${widget.allTask} tasks\nkeep up your progress",
+                  style: TextStyleClass.appDiscriptionSmallStyle,
+                ),
+              ],
+            ),
           ),
           Container(
             width: 72,
