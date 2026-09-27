@@ -23,7 +23,6 @@ class _SingleNotePageState extends State<SingleNotePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     _getNotesByCategory();
     super.initState();
   }
@@ -37,7 +36,6 @@ class _SingleNotePageState extends State<SingleNotePage> {
     });
   }
 
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,7 +79,7 @@ class _SingleNotePageState extends State<SingleNotePage> {
                         childAspectRatio: 7 / 10.43,
                       ),
                       scrollDirection: Axis.vertical,
-                      physics: const NeverScrollableScrollPhysics(),
+                      physics: const AlwaysScrollableScrollPhysics(),
                       itemCount: notesByCategory.length,
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
@@ -101,9 +99,8 @@ class _SingleNotePageState extends State<SingleNotePage> {
                               notesByCategory.removeAt(index);
                             });
                           },
-
-                          toFullNoteShowPage: ()async {
-                             GoRouter.of(context).goNamed(
+                          toFullNoteShowPage: () async {
+                            GoRouter.of(context).goNamed(
                                 RouteNames.fullnotepage,
                                 extra: notesByCategory[index]);
                           },

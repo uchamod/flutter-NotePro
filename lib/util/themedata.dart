@@ -25,7 +25,7 @@ class TheameClass {
       iconSize: 35,
     ),
     //card theme
-    cardTheme: const CardTheme(
+    cardTheme: const CardThemeData(
       color: AppColors.kcCardBlackColor,
       elevation: 1,
       shadowColor: AppColors.kcTextWhiteColor,

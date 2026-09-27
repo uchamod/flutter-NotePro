@@ -31,8 +31,7 @@ class _ProgressCardState extends State<ProgressCard> {
         borderRadius: BorderRadius.circular(10),
       ),
       padding: const EdgeInsets.symmetric(
-          horizontal: ConstantClass.kcDefultcontainerPadH,
-          vertical: ConstantClass.kcDefultContainerPadV),
+          horizontal: 14, vertical: ConstantClass.kcDefultContainerPadV),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -46,7 +45,7 @@ class _ProgressCardState extends State<ProgressCard> {
                 style: TextStyleClass.appTittleStyle,
               ),
               const SizedBox(
-                height: 10,
+                height: 8,
               ),
               Text(
                 "You have completed ${widget.completeTask} out of ${widget.allTask} tasks\nkeep up your progress",
@@ -55,8 +54,8 @@ class _ProgressCardState extends State<ProgressCard> {
             ],
           ),
           Container(
-            width: 85,
-            height: 85,
+            width: 72,
+            height: 72,
             //  padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               gradient: AppColors.progressCircleGradient,
@@ -65,7 +64,10 @@ class _ProgressCardState extends State<ProgressCard> {
             child: Center(
               child: Text(
                 "${completetaskPercentage.toStringAsFixed(0)}%",
-                style: TextStyleClass.appHeadingStyle,
+                style: const TextStyle(
+                    fontSize: 18,
+                    color: AppColors.kcTextWhiteColor,
+                    fontWeight: FontWeight.bold),
               ),
             ),
           ),

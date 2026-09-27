@@ -22,8 +22,8 @@ class _ToDoPageState extends State<ToDoPage>
     with SingleTickerProviderStateMixin {
   //tabbar controller : identify the tabs
   late TabController _tabController;
-  TextEditingController _controller = TextEditingController();
-  TodoService _todoService = TodoService();
+  final TextEditingController _controller = TextEditingController();
+  final TodoService _todoService = TodoService();
   @override
   void initState() {
     //initilize the tab controller

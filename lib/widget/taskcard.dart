@@ -53,7 +53,7 @@ class _TaskCardState extends State<TaskCard> {
                       style: TextStyleClass.appDiscriptionSmallStyle,
                     ),
                     const SizedBox(
-                      width: 10,
+                      width: 8,
                     ),
                     Text(
                       '${widget.time.hour}:${widget.time.minute}',

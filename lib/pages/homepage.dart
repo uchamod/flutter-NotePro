@@ -133,31 +133,28 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(
                 height: 20,
               ),
-              SizedBox(
-                height: 400,
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: todos.length,
-                        scrollDirection: Axis.vertical,
-                        itemBuilder: (context, index) {
-                          ToDoModel todo = todos[index];
-                          return TaskCard(
-                              isCompleted: todo.markAsDone,
-                              title: todo.title,
-                              dateTime: todo.date,
-                              time: todo.time,
-                              iconColor: todo.markAsDone == true
-                                  ? AppColors.kcTickGreenColor
-                                  : AppColors.kcTickRedColor);
-                        },
-                      ),
-                    ],
-                  ),
+              SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      itemCount: todos.length,
+                      scrollDirection: Axis.vertical,
+                      itemBuilder: (context, index) {
+                        ToDoModel todo = todos[index];
+                        return TaskCard(
+                            isCompleted: todo.markAsDone,
+                            title: todo.title,
+                            dateTime: todo.date,
+                            time: todo.time,
+                            iconColor: todo.markAsDone == true
+                                ? AppColors.kcTickGreenColor
+                                : AppColors.kcTickRedColor);
+                      },
+                    ),
+                  ],
                 ),
               ),
             ],

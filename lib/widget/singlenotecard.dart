@@ -71,7 +71,7 @@ class _SingleNoteCardState extends State<SingleNoteCard> {
             ],
           ),
           const SizedBox(
-            height: 15,
+            height: 12,
           ),
           //note title
           Text(
@@ -81,7 +81,7 @@ class _SingleNoteCardState extends State<SingleNoteCard> {
             overflow: TextOverflow.ellipsis,
           ),
           const SizedBox(
-            height: 15,
+            height: 8,
           ),
           //note discription
           Text(
@@ -91,21 +91,19 @@ class _SingleNoteCardState extends State<SingleNoteCard> {
             overflow: TextOverflow.ellipsis,
           ),
           const SizedBox(
-            height: 15,
+            height: 8,
           ),
           GestureDetector(
             onTap: widget.toFullNoteShowPage,
-               child: Text(
+            child: Text(
               "Read more...",
               style: TextStyleClass.appCardTitleStyle.copyWith(
                 fontWeight: FontWeight.w600,
-                fontSize: 18,
+                fontSize: 14,
                 color: AppColors.readmoreblue,
               ),
             ),
           )
-           
-          
         ],
       ),
     );

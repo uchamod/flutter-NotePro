@@ -1,4 +1,4 @@
-package com.example.note_sphere
+package com.uchamod.note_sphere
 
 import io.flutter.embedding.android.FlutterActivity
 

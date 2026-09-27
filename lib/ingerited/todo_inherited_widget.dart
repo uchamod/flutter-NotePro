@@ -5,7 +5,7 @@ class ToDoData extends InheritedWidget {
   //when change the todo list call the  function
   final List<ToDoModel> todos;
   final Function() onToDoChanged;
-  ToDoData({
+  const ToDoData({
     required this.todos,
     required this.onToDoChanged,
     required super.child,
@@ -20,7 +20,6 @@ class ToDoData extends InheritedWidget {
   //notify when update the current tododata
   @override
   bool updateShouldNotify(covariant ToDoData oldWidget) {
-    // TODO: implement updateShouldNotify
     //notify when old todos ant diff from current todos
     return todos != oldWidget.todos;
   }

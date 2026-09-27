@@ -100,7 +100,7 @@ class NoteServices {
             )));
       }
     } catch (err) {
-      print(err.toString());
+     
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             backgroundColor: AppColors.kcCardBlackColor,
@@ -131,7 +131,7 @@ class NoteServices {
             )));
       }
     } catch (err) {
-      print(err.toString());
+      
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             backgroundColor: AppColors.kcCardBlackColor,
@@ -173,7 +173,7 @@ class NoteServices {
             )));
       }
     } catch (err) {
-      print(err.toString());
+     
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             backgroundColor: AppColors.kcCardBlackColor,

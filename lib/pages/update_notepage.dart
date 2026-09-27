@@ -32,7 +32,7 @@ class _UpdatenotePageState extends State<UpdatenotePage> {
   String _selectedCategory = "";
   @override
   void initState() {
-    // TODO: implement initState
+  
     setState(() {
       _loadCategories();
       _selectedCategory = widget.note.category;
@@ -48,7 +48,7 @@ class _UpdatenotePageState extends State<UpdatenotePage> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
+   
 
     _discriptionController.dispose();
     _titleController.dispose();
@@ -88,70 +88,68 @@ class _UpdatenotePageState extends State<UpdatenotePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     //drop down menu
-                    Container(
-                      child: DropdownButtonFormField<String>(
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "please select a category";
-                          } else {
-                            return null;
-                          }
-                        },
-                        alignment: Alignment.centerLeft,
-
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 20),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide: BorderSide(
-                                color: AppColors.kcTextWhiteColorShadow,
-                                width: 1),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide: BorderSide(
-                                color: AppColors.kcTextWhiteColorShadow,
-                                width: 1),
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide: BorderSide(
-                                color: AppColors.kcTextWhiteColorShadow,
-                                width: 1),
-                          ),
+                    DropdownButtonFormField<String>(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "please select a category";
+                        } else {
+                          return null;
+                        }
+                      },
+                      alignment: Alignment.centerLeft,
+                    
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 15, vertical: 20),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                          borderSide: BorderSide(
+                              color: AppColors.kcTextWhiteColorShadow,
+                              width: 1),
                         ),
-                        hint: Text(
-                          "Category",
-                          style: TextStyleClass.appDiscriptionSmallStyle
-                              .copyWith(fontSize: 16),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                          borderSide: BorderSide(
+                              color: AppColors.kcTextWhiteColorShadow,
+                              width: 1),
                         ),
-                        style: TextStyleClass.appDiscriptionSmallStyle,
-                        menuMaxHeight: double.infinity,
-
-                        isExpanded: true,
-                        icon: const Icon(
-                          Icons.arrow_drop_down,
-                          color: AppColors.kcTextWhiteColor,
-                          size: 28,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                          borderSide: BorderSide(
+                              color: AppColors.kcTextWhiteColorShadow,
+                              width: 1),
                         ),
-                        //add menu items
-                        items: allCategories
-                            .map((ele) => DropdownMenuItem(
-                                  value: ele,
-                                  child: Text(
-                                    ele,
-                                    style: TextStyleClass.appSubTittleStyle,
-                                  ),
-                                ))
-                            .toList(),
-                        onChanged: (String? value) {
-                          setState(() {
-                            _selectedCategory = value!;
-                          });
-                        },
-                        //or create new category
                       ),
+                      hint: Text(
+                        "Category",
+                        style: TextStyleClass.appDiscriptionSmallStyle
+                            .copyWith(fontSize: 16),
+                      ),
+                      style: TextStyleClass.appDiscriptionSmallStyle,
+                      menuMaxHeight: double.infinity,
+                    
+                      isExpanded: true,
+                      icon: const Icon(
+                        Icons.arrow_drop_down,
+                        color: AppColors.kcTextWhiteColor,
+                        size: 28,
+                      ),
+                      //add menu items
+                      items: allCategories
+                          .map((ele) => DropdownMenuItem(
+                                value: ele,
+                                child: Text(
+                                  ele,
+                                  style: TextStyleClass.appSubTittleStyle,
+                                ),
+                              ))
+                          .toList(),
+                      onChanged: (String? value) {
+                        setState(() {
+                          _selectedCategory = value!;
+                        });
+                      },
+                      //or create new category
                     ),
                     const SizedBox(
                       height: 30,

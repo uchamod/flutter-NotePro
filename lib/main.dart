@@ -20,19 +20,17 @@ void main() async {
   await Hive.openBox("todobox");
   runApp(const MyApp());
 }
-
+ 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-   //configure the inherited widget
+    //configure the inherited widget
     return ToDoData(
-      todos: [],  
-      onToDoChanged: () {
-        
-      },
-       //wrap with router
+      todos: [],
+      onToDoChanged: () {},
+      //wrap with router
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
         //add app theme with font family(inter)

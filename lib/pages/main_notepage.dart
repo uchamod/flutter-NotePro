@@ -27,7 +27,7 @@ class _MainNotePageState extends State<MainNotePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
+  
     _checkIsUserNew();
     _loadnotes();
     super.initState();
