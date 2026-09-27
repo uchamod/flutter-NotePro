@@ -42,14 +42,11 @@ class _ToDoPageState extends State<ToDoPage>
     if (todo.title.isNotEmpty) {
       await _todoService.addNewTodo(todo, context);
     }
+    if (!mounted) return;
 
     Navigator.of(context).pop();
 
     _controller.clear();
-    setState(() {
-      const IncompleteToDo();
-      const HomePage();
-    });
     GoRouter.of(context).goNamed(RouteNames.todopage);
   }
 

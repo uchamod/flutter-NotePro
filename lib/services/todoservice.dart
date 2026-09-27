@@ -57,7 +57,7 @@ class TodoService {
   Future<void> changeMarkState(
       ToDoModel checkedTodo, BuildContext context) async {
     try {
-      dynamic todos = await _todoBox.get("todos");
+      final List<ToDoModel> todos = await loadTodos();
       List<ToDoModel> allTodos = [];
       for (final todo in todos) {
         if (todo.id == checkedTodo.id) {
@@ -84,10 +84,12 @@ class TodoService {
   //delete a todo
   Future<void> deleteTodo(ToDoModel todo, BuildContext context) async {
     try {
-      dynamic alltodos = await _todoBox.get("todos");
+      final List<ToDoModel> alltodos = await loadTodos();
       int index = alltodos.indexWhere((ele) => ele.id == todo.id);
-      alltodos.removeAt(index);
-      await _todoBox.put("todos", alltodos);
+      if (index != -1) {
+        alltodos.removeAt(index);
+        await _todoBox.put("todos", alltodos);
+      }
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -119,7 +121,7 @@ class TodoService {
   //add new todo
   Future<void> addNewTodo(ToDoModel todo, BuildContext context) async {
     try {
-      dynamic alltodos = await _todoBox.get("todos");
+      final List<ToDoModel> alltodos = await loadTodos();
       alltodos.add(todo);
       await _todoBox.put("todos", alltodos);
       if (context.mounted) {

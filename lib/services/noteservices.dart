@@ -72,7 +72,7 @@ class NoteServices {
 
   //get the notes according to specific category
   Future<List<NoteModel>> getNotesForGivenCategory(String category) async {
-    final dynamic notes = await _noteBox.get("notes");
+    final List<NoteModel> notes = await loadNotes();
     List<NoteModel> notesBycategory = [];
     for (final note in notes) {
       if (note.category == category) {
@@ -85,11 +85,13 @@ class NoteServices {
   //remove note from local storage
   Future<void> deleteNote(NoteModel note, BuildContext context) async {
     try {
-      final dynamic allNotes = await _noteBox.get("notes");
+      final List<NoteModel> allNotes = await loadNotes();
       //get the index
       final int index = allNotes.indexWhere((ele) => ele.id == note.id);
-      allNotes.removeAt(index);
-      await _noteBox.put("notes", allNotes);
+      if (index != -1) {
+        allNotes.removeAt(index);
+        await _noteBox.put("notes", allNotes);
+      }
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             duration: Duration(seconds: 1),
@@ -116,11 +118,13 @@ class NoteServices {
   //update current note
   Future<void> updateNote(NoteModel note, BuildContext context) async {
     try {
-      final dynamic allNotes = await _noteBox.get("notes");
+      final List<NoteModel> allNotes = await loadNotes();
       //get the index
       final int index = allNotes.indexWhere((ele) => ele.id == note.id);
-      allNotes[index] = note;
-      await _noteBox.put("notes", allNotes);
+      if (index != -1) {
+        allNotes[index] = note;
+        await _noteBox.put("notes", allNotes);
+      }
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             backgroundColor: AppColors.kcCardBlackColor,
@@ -148,7 +152,7 @@ class NoteServices {
   //get all categories
   Future<List<String>> getAllCategories() async {
     List<String> allCategories = [];
-    final dynamic allnotes = await _noteBox.get("notes");
+    final List<NoteModel> allnotes = await loadNotes();
     for (final note in allnotes) {
       if (!allCategories.contains(note.category)) {
         allCategories.add(note.category);
@@ -160,7 +164,7 @@ class NoteServices {
   //save a new note
   Future<void> saveNewNote(NoteModel note, BuildContext context) async {
     try {
-      final dynamic allNotes = await _noteBox.get("notes");
+      final List<NoteModel> allNotes = await loadNotes();
       allNotes.add(note);
       await _noteBox.put("notes", allNotes);
       if (context.mounted) {

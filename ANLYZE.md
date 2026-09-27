@@ -19,7 +19,7 @@
 
 ### Platform/configuration concerns
 
-- Android and iOS identifiers differ: Android uses `com.uchamod.note_sphere`, while iOS uses `com.example.noteSphere`.
+- Android and iOS identifiers differ: Android uses `com.uchamod.QuickNote`, while iOS uses `com.example.noteSphere`.
 - iOS still uses `iPhone Developer` signing identities in `project.pbxproj:335`. Configure the actual Apple distribution team, certificate, and provisioning profile on macOS.
 - Android tooling is already producing future compatibility warnings: Gradle 8.12, AGP 8.9.1, and Kotlin 2.1.0 will need upgrades soon.
 - Remove obsolete duplicate AGP/Kotlin declarations from `build.gradle:1-10`.

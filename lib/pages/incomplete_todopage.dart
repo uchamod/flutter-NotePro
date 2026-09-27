@@ -24,13 +24,17 @@ class _IncompleteToDoState extends State<IncompleteToDo> {
 
   @override
   void initState() {
-    _isNewUser();
-    _loadTodos();
     super.initState();
+    _initData();
+  }
+
+  void _initData() async {
+    await _isNewUser();
+    _loadTodos();
   }
 
   //check user is new and save the initial data in storage
-  void _isNewUser() async {
+  Future<void> _isNewUser() async {
     bool isUserNew = await _todoService.isNewUser();
     if (isUserNew) {
       await _todoService.saveInitialTodos();
@@ -40,6 +44,7 @@ class _IncompleteToDoState extends State<IncompleteToDo> {
   //load the current data
   Future<void> _loadTodos() async {
     List<ToDoModel> todos = await _todoService.loadTodos();
+    if (!mounted) return;
     setState(() {
       alltodos = todos;
 
@@ -52,57 +57,57 @@ class _IncompleteToDoState extends State<IncompleteToDo> {
   void _updateToDo(ToDoModel todo) async {
     await _todoService.changeMarkState(todo, context);
     //alert massage
-    if (context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          backgroundColor: AppColors.kcCardBlackColor,
-          duration: Duration(seconds: 1),
-          content: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Icon(
-                Icons.check,
-                color: AppColors.kcTextWhiteColor,
-                size: 20,
-                weight: 20,
-                opticalSize: 30,
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Text(
-                "Done",
-                style: TextStyleClass.appSubTittleStyle,
-              ),
-            ],
-          )));
-    }
+    if (!mounted) return;
+    
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        backgroundColor: AppColors.kcCardBlackColor,
+        duration: Duration(seconds: 1),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Icon(
+              Icons.check,
+              color: AppColors.kcTextWhiteColor,
+              size: 20,
+              weight: 20,
+              opticalSize: 30,
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Text(
+              "Done",
+              style: TextStyleClass.appSubTittleStyle,
+            ),
+          ],
+        )));
 
     //update the state
     setState(() {
       incompletedtodos.remove(todo);
     });
     if (ToDoData.of(context) != null) {
-      ToDoData.of(context)!.onToDoChanged;
+      ToDoData.of(context)!.onToDoChanged();
     }
   }
 
   //delete the todo
   void _deletedTodo(ToDoModel todo) async {
     await _todoService.deleteTodo(todo, context);
+    if (!mounted) return;
     setState(() {
       incompletedtodos.remove(todo);
     });
     if (ToDoData.of(context) != null) {
-      ToDoData.of(context)!.onToDoChanged;
+      ToDoData.of(context)!.onToDoChanged();
     }
   }
 
   @override
   Widget build(BuildContext context) {
     //sort according to time
-    setState(() {
-      incompletedtodos.sort((a, b) => a.time.compareTo(b.time));
-    });
+    incompletedtodos.sort((a, b) => a.time.compareTo(b.time));
+
     //wrap with inherit widget
     return ToDoData(
       todos: alltodos,
@@ -178,9 +183,6 @@ class _IncompleteToDoState extends State<IncompleteToDo> {
                             child: ToDoCard(
                               changeState: () async {
                                 _updateToDo(todo);
-                                setState(() {
-                                  HomePage();
-                                });
                               },
                               isDone: todo.markAsDone,
                               title: todo.title,

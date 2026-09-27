@@ -48,6 +48,7 @@ class RouteClass {
         path: "/singlenotepage",
         name: RouteNames.singlenotepage,
         builder: (context, state) {
+          if (state.extra is! String) return const ErroPage();
           String category = state.extra as String;
           return SingleNotePage(category: category);
         },
@@ -57,6 +58,7 @@ class RouteClass {
         path: "/addnewnote",
         name: RouteNames.addnewnotepage,
         builder: (context, state) {
+          if (state.extra is! bool) return const ErroPage();
           bool isNormal = state.extra as bool;
           return AddNewNote(
             isNormal: isNormal,
@@ -68,6 +70,7 @@ class RouteClass {
         path: "/update",
         name: RouteNames.updatenotepage,
         builder: (context, state) {
+          if (state.extra is! NoteModel) return const ErroPage();
           NoteModel note = state.extra as NoteModel;
           return UpdatenotePage(
             note: note,
@@ -79,6 +82,7 @@ class RouteClass {
         path: "/shownote",
         name: RouteNames.fullnotepage,
         builder: (context, state) {
+          if (state.extra is! NoteModel) return const ErroPage();
           NoteModel note = state.extra as NoteModel;
           return ShowFullNote(
             note: note,

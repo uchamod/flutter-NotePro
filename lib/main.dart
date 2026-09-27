@@ -20,7 +20,7 @@ void main() async {
   await Hive.openBox("todobox");
   runApp(const MyApp());
 }
- 
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 

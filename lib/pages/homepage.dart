@@ -27,19 +27,24 @@ class _HomePageState extends State<HomePage> {
   List<String> notesByCategory = [];
   @override
   void initState() {
-    setState(() {
-      _isNewUser();
-      _loadNoteAndTodos();
-    });
     super.initState();
+    _initData();
+  }
+
+  void _initData() async {
+    await _isNewUser();
+    _loadNoteAndTodos();
   }
 
   //check if user new
-  void _isNewUser() async {
-    final bool isNew =
-        await NoteServices().isNewUser() || await TodoService().isNewUser();
-    if (isNew) {
+  Future<void> _isNewUser() async {
+    final bool isNotesNew = await NoteServices().isNewUser();
+    if (isNotesNew) {
       await NoteServices().saveInitialNotes();
+    }
+    
+    final bool isTodosNew = await TodoService().isNewUser();
+    if (isTodosNew) {
       await TodoService().saveInitialTodos();
     }
   }
@@ -67,7 +72,7 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text(
-            "NotePro",
+            "QuickNote",
             style: TextStyleClass.appHeadingStyle,
           ),
         ),

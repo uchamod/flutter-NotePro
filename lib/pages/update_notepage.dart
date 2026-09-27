@@ -156,6 +156,7 @@ class _UpdatenotePageState extends State<UpdatenotePage> {
                     ),
                     //title text feild
                     TextFormField(
+                      maxLength: 50,
                       style: TextStyleClass.appTittleStyle,
                       cursorColor: AppColors.kcTextWhiteColor,
                       controller: _titleController,
@@ -177,6 +178,7 @@ class _UpdatenotePageState extends State<UpdatenotePage> {
                     ),
                     //discription
                     TextFormField(
+                      maxLength: 500,
                       controller: _discriptionController,
                       maxLines: 15,
                       validator: (value) {

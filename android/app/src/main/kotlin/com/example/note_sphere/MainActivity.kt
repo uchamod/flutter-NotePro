@@ -1,4 +1,4 @@
-package com.uchamod.note_sphere
+package com.uchamod.QuickNote
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -24,7 +24,7 @@ class _ErroPageState extends State<ErroPage> {
 
             ),),
             const SizedBox(height: 15,),
-            Image.network("https://cdn.dribbble.com/users/1138875/screenshots/4669703/404_animation.gif"),
+            Icon(Icons.error_outline, size: 150, color: AppColors.readmoreblue),
 
 
           ],
