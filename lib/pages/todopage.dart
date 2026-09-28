@@ -7,6 +7,7 @@ import 'package:note_sphere/providers/todo_provider.dart';
 import 'package:note_sphere/routes/routenames.dart';
 import 'package:note_sphere/util/colors.dart';
 import 'package:note_sphere/util/textstyle.dart';
+import 'package:note_sphere/widget/custom_fsb_location.dart';
 import 'package:provider/provider.dart';
 
 //todo-page using tab bar
@@ -23,7 +24,7 @@ class _ToDoPageState extends State<ToDoPage>
   //tabbar controller : identify the tabs
   late TabController _tabController;
   final TextEditingController _controller = TextEditingController();
-  
+
   @override
   void initState() {
     //initilize the tab controller
@@ -40,7 +41,8 @@ class _ToDoPageState extends State<ToDoPage>
 
   void _addNewTask(ToDoModel todo, BuildContext context) async {
     if (todo.title.isNotEmpty) {
-      await Provider.of<TodoProvider>(context, listen: false).addNewTodo(todo, context);
+      await Provider.of<TodoProvider>(context, listen: false)
+          .addNewTodo(todo, context);
     }
     if (!mounted) return;
 
@@ -165,9 +167,11 @@ class _ToDoPageState extends State<ToDoPage>
         ),
       ),
       //add tab viwes
+      floatingActionButtonLocation: const CustomFabLocation(bottom: 48),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.blueAccent,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(100),
+          borderRadius: BorderRadius.circular(140),
         ),
         //show bottom sheet
         onPressed: () {
@@ -176,7 +180,7 @@ class _ToDoPageState extends State<ToDoPage>
         child: const Center(
           child: Icon(
             Icons.add,
-            size: 35,
+            size: 48,
             color: AppColors.kcTextWhiteColor,
           ),
         ),

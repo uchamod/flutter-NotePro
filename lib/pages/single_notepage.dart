@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:note_sphere/providers/note_provider.dart';
 import 'package:note_sphere/routes/routenames.dart';
+import 'package:note_sphere/util/colors.dart';
 import 'package:note_sphere/util/constants.dart';
 import 'package:note_sphere/util/textstyle.dart';
 import 'package:note_sphere/widget/singlenotecard.dart';
@@ -18,6 +19,7 @@ class SingleNotePage extends StatefulWidget {
 class _SingleNotePageState extends State<SingleNotePage> {
   @override
   Widget build(BuildContext context) {
+    double scheight = MediaQuery.of(context).size.height * 0.25;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -38,7 +40,8 @@ class _SingleNotePageState extends State<SingleNotePage> {
       ),
       body: Consumer<NoteProvider>(
         builder: (context, noteProvider, child) {
-          final notesByCategory = noteProvider.notesByCategory[widget.category] ?? [];
+          final notesByCategory =
+              noteProvider.notesByCategory[widget.category] ?? [];
 
           return SingleChildScrollView(
             child: Padding(
@@ -49,11 +52,27 @@ class _SingleNotePageState extends State<SingleNotePage> {
                 children: [
                   //show all the notes acording to category
                   notesByCategory.isEmpty
-                      ? const Center(
-                          child: Text(
-                          "No notes avalible\nadd some notes here",
-                          style: TextStyleClass.appCardTitleStyle,
-                        ))
+                      ? Center(
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: scheight,
+                              ),
+                              const Icon(
+                                Icons.today_outlined,
+                                size: 128,
+                                color: AppColors.kcButtonPurpleColor,
+                              ),
+                              const Text(
+                                "No Notes Avalible",
+                                style: TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.kcButtonPurpleColor),
+                              )
+                            ],
+                          ),
+                        )
                       : GridView.builder(
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(

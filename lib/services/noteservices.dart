@@ -14,8 +14,7 @@ class NoteServices {
         id: const Uuid().v4(),
         category: "University",
         title: "Assignment",
-        description:
-            "network assigment was given by kavidu yakupitiya last week but it's doesn'nt statred yet dead line is 2024/07/17 i think we will be unable to done this bullshit because of lack of knowledge this is bullshit",
+        description: "add your note discription here",
         dateTime: DateTime.now()),
     NoteModel(
         id: const Uuid().v4(),
@@ -102,7 +101,6 @@ class NoteServices {
             )));
       }
     } catch (err) {
-     
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             backgroundColor: AppColors.kcCardBlackColor,
@@ -135,7 +133,6 @@ class NoteServices {
             )));
       }
     } catch (err) {
-      
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             backgroundColor: AppColors.kcCardBlackColor,
@@ -148,7 +145,6 @@ class NoteServices {
     }
   }
 
-  
   //get all categories
   Future<List<String>> getAllCategories() async {
     List<String> allCategories = [];
@@ -177,7 +173,6 @@ class NoteServices {
             )));
       }
     } catch (err) {
-     
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             backgroundColor: AppColors.kcCardBlackColor,
@@ -189,5 +184,4 @@ class NoteServices {
       }
     }
   }
-  
 }

@@ -5,6 +5,7 @@ import 'package:note_sphere/routes/routenames.dart';
 import 'package:note_sphere/util/colors.dart';
 import 'package:note_sphere/util/constants.dart';
 import 'package:note_sphere/util/textstyle.dart';
+import 'package:note_sphere/widget/custom_fsb_location.dart';
 import 'package:note_sphere/widget/noteadding_bottomsheet.dart';
 import 'package:note_sphere/widget/notecard.dart';
 import 'package:provider/provider.dart';
@@ -43,6 +44,7 @@ class _MainNotePageState extends State<MainNotePage> {
 
   @override
   Widget build(BuildContext context) {
+    double scheight = MediaQuery.of(context).size.height * 0.25;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -74,11 +76,27 @@ class _MainNotePageState extends State<MainNotePage> {
               children: [
                 //show all the notes acording to category
                 allnotes.isEmpty
-                    ? const Center(
-                        child: Text(
-                        "No notes avalible\nadd some notes here",
-                        style: TextStyleClass.appCardTitleStyle,
-                      ))
+                    ? Center(
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: scheight,
+                            ),
+                            const Icon(
+                              Icons.today_outlined,
+                              size: 128,
+                              color: AppColors.kcButtonPurpleColor,
+                            ),
+                            const Text(
+                              "No Notes Avalible",
+                              style: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.kcButtonPurpleColor),
+                            )
+                          ],
+                        ),
+                      )
                     : GridView.builder(
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
@@ -100,8 +118,9 @@ class _MainNotePageState extends State<MainNotePage> {
                             },
                             child: NoteCard(
                                 category: notesByCategory.keys.elementAt(index),
-                                numOfNotes:
-                                    notesByCategory.values.elementAt(index).length),
+                                numOfNotes: notesByCategory.values
+                                    .elementAt(index)
+                                    .length),
                           );
                         },
                       )
@@ -111,16 +130,18 @@ class _MainNotePageState extends State<MainNotePage> {
         },
       ),
       //add new note
+      floatingActionButtonLocation: const CustomFabLocation(bottom: 48),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.blueAccent,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(100),
+          borderRadius: BorderRadius.circular(140),
         ),
         //show bottom sheet
         onPressed: openModelBottomSheet,
         child: const Center(
           child: Icon(
             Icons.add,
-            size: 35,
+            size: 48,
             color: AppColors.kcTextWhiteColor,
           ),
         ),
